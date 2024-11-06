@@ -1,0 +1,29 @@
+import { getUserByName } from "@/app/lib/actions";
+import { auth } from "@/auth";
+import HistoryTable from "@/components/user/history/HistoryTable";
+import { redirect } from "next/navigation";
+
+export const metadata = {
+  title: "Surat - Riwayat",
+};
+const UserHistoryPage = async() => {
+  const session = await auth()
+  const user = await getUserByName(session?.user?.name)
+  if (!user) {
+    return redirect("/")
+  }else if(user.isAdmin) {
+    return redirect("/admin")
+  }
+  return (
+    <div className="flex flex-col justify-between text-neutral-700 h-full">
+      <div className="flex flex-col gap-3 h-full">
+        <div className="text-4xl font-semibold mb-10">Riwayat Surat</div>
+        <div className="h-full">
+          <HistoryTable user={user} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default UserHistoryPage;
