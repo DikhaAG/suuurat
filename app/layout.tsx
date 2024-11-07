@@ -13,7 +13,7 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-export const poppins_init = Poppins({
+const poppins_init = Poppins({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-poppins",
