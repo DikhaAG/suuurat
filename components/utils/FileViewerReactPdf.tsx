@@ -1,7 +1,11 @@
 "use client";
-import FileViewerReactPdfProvider from "./FileViewerReactPdfProvider";
 import { useState } from "react";
-import { Document, Page } from "react-pdf";
+import { Document, Page, pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
+).toString();
 
 interface FileViewerReactPdfInterface {
   file: string;
