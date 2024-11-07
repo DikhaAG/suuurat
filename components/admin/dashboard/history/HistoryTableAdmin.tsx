@@ -1,7 +1,5 @@
 "use client";
-import {
-    getAllConfirmedSurat,
-} from "@/app/lib/actions";
+import { getAllConfirmedSurat } from "@/app/lib/actions";
 import NoResultFound from "@/components/utils/NoResultFound";
 import { useEffect, useState } from "react";
 import LoadingResult from "@/components/utils/LoadingResult";
@@ -9,7 +7,9 @@ import HistoryTableFormAdmin from "./HistoryTableFormAdmin";
 import { SuratModel } from "@/app/lib/models";
 
 const HistoryTableAdmin = () => {
-  const [confirmedSurat, setConfirmedSurat] = useState<Array<SuratModel> | undefined>();
+  const [confirmedSurat, setConfirmedSurat] = useState<
+    Array<SuratModel> | undefined
+  >();
   const getSurat = async () => {
     const res = await getAllConfirmedSurat();
     setConfirmedSurat(res);

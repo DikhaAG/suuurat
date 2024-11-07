@@ -1,6 +1,6 @@
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
 
-const UserLayoutPage = async ({
+const UserLayoutPage = ({
   children,
 }: Readonly<{
   children: React.ReactNode;

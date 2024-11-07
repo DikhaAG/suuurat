@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 
 const RequestedCheckBoxNote = () => {
-    const [checkBoxNote, setCheckBoxNote] = useState<boolean>(false)
+  const [checkBoxNote, setCheckBoxNote] = useState<boolean>(false);
   return (
     <div className="flex flex-col gap-3">
       <div className="text-start">
@@ -32,4 +32,4 @@ const RequestedCheckBoxNote = () => {
   );
 };
 
-export default RequestedCheckBoxNote
+export default RequestedCheckBoxNote;

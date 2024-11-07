@@ -1,4 +1,3 @@
-"use client"
 import { SuratModel } from "@/app/lib/models";
 import Link from "next/link";
 
@@ -26,7 +25,7 @@ const HistoryTableFormAdmin = ({ surat }: HistoryTableFormAdminInterface) => {
           tampilkan
         </Link>
       </td>
-      <td className="px-6 py-4">{surat.createdAt.toString().slice(0,25)}</td>
+      <td className="px-6 py-4">{surat.createdAt.toString().slice(0, 25)}</td>
     </tr>
   );
 };

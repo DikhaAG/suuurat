@@ -2,20 +2,15 @@
 import { BsList } from "react-icons/bs";
 import BrandIcon from "../icons/BrandIcon";
 import { IoIosArrowRoundBack } from "react-icons/io";
-
 import { motion, useAnimationControls } from "framer-motion";
 import { useEffect, useState } from "react";
-import { IoLogOutOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import { FiPlus } from "react-icons/fi";
 import { LuTimer } from "react-icons/lu";
 import { RiDashboardLine, RiHistoryFill } from "react-icons/ri";
-import Link from "next/link";
 import { CiUser } from "react-icons/ci";
 import UserCard from "../utils/userCard";
-import { User } from "@prisma/client";
 import SidebarLink from "./SidebarLink";
-import { signOut } from "@/auth";
 import SignOutButton from "./SignOutButton";
 import { UserModel } from "@/app/lib/models";
 

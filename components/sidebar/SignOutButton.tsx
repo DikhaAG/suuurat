@@ -1,4 +1,3 @@
-import { signOut } from "@/auth";
 import Link from "next/link";
 import { IoLogOutOutline } from "react-icons/io5";
 

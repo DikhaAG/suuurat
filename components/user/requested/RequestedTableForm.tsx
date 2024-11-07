@@ -1,18 +1,18 @@
-"use client";
-import { deleteSuratById } from "@/app/lib/actions";
 import { SuratModel } from "@/app/lib/models";
-import JustButton from "@/components/utils/JustButton";
-import { Surat } from "@prisma/client";
-import clsx from "clsx";
 import Link from "next/link";
-import { MouseEventHandler } from "react";
-import { useFormStatus } from "react-dom";
 import RequestedTableBatal from "./RequestedTableBatal";
+import { Dispatch, SetStateAction } from "react";
 
 interface RequestedTableFormInterface {
   surat: SuratModel;
+  isModalOpen: boolean;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 }
-const RequestedTableForm = ({ surat }: RequestedTableFormInterface) => {
+const RequestedTableForm = ({
+  surat,
+  isModalOpen,
+  setIsModalOpen,
+}: RequestedTableFormInterface) => {
   return (
     <tr
       key={surat.id}
@@ -35,7 +35,11 @@ const RequestedTableForm = ({ surat }: RequestedTableFormInterface) => {
       </td>
       <td className="px-6 py-4">{surat.createdAt.toString().slice(0, 25)}</td>
       <td className="px-6 py-4">
-        <RequestedTableBatal suratId={surat.id} />
+        <RequestedTableBatal
+          suratId={surat.id}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
       </td>
     </tr>
   );

@@ -1,9 +1,12 @@
+"use client"
 import { useState } from "react";
 
 interface HistoryButtonNoteButtonInterface {
   note: string | null;
 }
-const HistoryButtonNoteButton = ({ note }: HistoryButtonNoteButtonInterface) => {
+const HistoryButtonNoteButton = ({
+  note,
+}: HistoryButtonNoteButtonInterface) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   return (
     <div className="flex flex-row gap-5">

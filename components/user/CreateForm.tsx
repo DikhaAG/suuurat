@@ -2,11 +2,18 @@
 import { kirim } from "@/app/lib/actions";
 import { useFormState } from "react-dom";
 import JustButton from "../utils/JustButton";
+import { useState } from "react";
 
 interface CreateFormInterface {
   authorId: string;
 }
 const CreateForm = ({ authorId }: CreateFormInterface) => {
+  const [authorIdState, setAuthorIdState] = useState<string>(authorId);
+  const [subject, setSubject] = useState<string>("");
+  const [receiver, setReceiver] = useState<string>("");
+  const [file, setFile] = useState<
+    string | number | readonly string[] | undefined
+  >();
   const [state, formAction] = useFormState(kirim, null);
   return (
     <form action={formAction} className="h-full">
@@ -18,7 +25,8 @@ const CreateForm = ({ authorId }: CreateFormInterface) => {
               type="text"
               name="authorId"
               id="authorId"
-              value={authorId}
+              value={authorIdState}
+              onChange={(e) => setAuthorIdState(e.target.value)}
             />
           </div>
           <div className="py-1 flex flex-col">
@@ -28,6 +36,8 @@ const CreateForm = ({ authorId }: CreateFormInterface) => {
             <div className="relative mt-2 rounded-md shadow-sm">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"></div>
               <input
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
                 type={"text"}
                 name={"subject"}
                 id={"subject"}
@@ -48,6 +58,8 @@ const CreateForm = ({ authorId }: CreateFormInterface) => {
             <div className="relative mt-2 rounded-md shadow-sm">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"></div>
               <input
+                value={receiver}
+                onChange={(e) => setReceiver(e.target.value)}
                 type={"text"}
                 name={"receiver"}
                 id={"receiver"}
@@ -74,6 +86,8 @@ const CreateForm = ({ authorId }: CreateFormInterface) => {
               id="file"
               name="file"
               type="file"
+              value={file}
+              onChange={(e) => setFile(e.target.value)}
             />
             <p
               className="mt-1 text-sm text-gray-600 dark:text-gray-400"

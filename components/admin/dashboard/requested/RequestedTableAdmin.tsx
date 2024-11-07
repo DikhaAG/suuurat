@@ -1,7 +1,5 @@
 "use client";
-import {
-    getAllRequestedSurat,
-} from "@/app/lib/actions";
+import { getAllRequestedSurat } from "@/app/lib/actions";
 import NoResultFound from "@/components/utils/NoResultFound";
 import { useEffect, useState } from "react";
 import LoadingResult from "@/components/utils/LoadingResult";
@@ -9,14 +7,17 @@ import RequestedTableFormAdmin from "./RequestedTableFormAdmin";
 import { SuratModel } from "@/app/lib/models";
 
 const RequestedTableAdmin = () => {
-  const [requestedSurat, setRequestedSurat] = useState<Array<SuratModel> | undefined>();
+  const [requestedSurat, setRequestedSurat] = useState<
+    Array<SuratModel> | undefined
+  >();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const getSurat = async () => {
     const res = await getAllRequestedSurat();
     setRequestedSurat(res);
   };
   useEffect(() => {
     getSurat();
-  }, []);
+  }, [isModalOpen]);
   return (
     <div className="h-full">
       {requestedSurat === undefined ? (
@@ -47,7 +48,7 @@ const RequestedTableAdmin = () => {
                 </thead>
                 <tbody className="">
                   {requestedSurat.map((s) => (
-                    <RequestedTableFormAdmin key={s.id} surat={s} />
+                    <RequestedTableFormAdmin key={s.id} surat={s} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
                   ))}
                 </tbody>
               </table>

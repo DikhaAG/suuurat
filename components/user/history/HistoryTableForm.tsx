@@ -1,8 +1,4 @@
-"use client"
-import { deleteSuratById } from "@/app/lib/actions";
 import { SuratModel } from "@/app/lib/models";
-import JustButton from "@/components/utils/JustButton";
-import { Surat } from "@prisma/client";
 import Link from "next/link";
 import HistoryButtonNoteButton from "./HistoryTableNoteButton";
 
@@ -10,7 +6,6 @@ interface HistoryTableFormInterface {
   surat: SuratModel;
 }
 const HistoryTableForm = ({ surat }: HistoryTableFormInterface) => {
-
   return (
     <tr
       key={surat.id}
@@ -25,15 +20,19 @@ const HistoryTableForm = ({ surat }: HistoryTableFormInterface) => {
       <td className="px-6 py-4">{surat.receiver}</td>
       <td className="px-6 py-4">
         <Link
-          href={`/user/requested/viewer/${surat.id}`}
+          href={`/user/history/viewer/${surat.id}`}
           className="text-blue-500 px-2 py-1 rounded-lg"
         >
           tampilkan
         </Link>
       </td>
-      <td className="px-6 py-4">{surat.createdAt.toString().slice(0,25)}</td>
+      <td className="px-6 py-4">{surat.createdAt.toString().slice(0, 25)}</td>
       <td className="px-6 py-4">
-        <HistoryButtonNoteButton note={surat.noted} />
+        {surat.noted !== "" ? (
+          <HistoryButtonNoteButton note={surat.noted} />
+        ) : (
+          ""
+        )}
       </td>
     </tr>
   );

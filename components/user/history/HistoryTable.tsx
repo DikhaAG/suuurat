@@ -1,10 +1,7 @@
 "use client";
-import {
-  getConfirmedSuratByAuthorId,
-} from "@/app/lib/actions";
+import { getConfirmedSuratByAuthorId } from "@/app/lib/actions";
 import NoResultFound from "../../utils/NoResultFound";
 import { useEffect, useState } from "react";
-import { Surat, User } from "@prisma/client";
 import LoadingResult from "@/components/utils/LoadingResult";
 import HistoryTableForm from "./HistoryTableForm";
 import { SuratModel, UserModel } from "@/app/lib/models";

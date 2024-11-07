@@ -1,12 +1,14 @@
-"use client"
 import Link from "next/link";
-import RequestedConfirmButton from "./RequestedConfirmButton";
+import RequestedConfirmButton from "./RequestedConfirmModal";
 import { SuratModel } from "@/app/lib/models";
+import { Dispatch, SetStateAction } from "react";
 
 interface HistoryTableFormAdminInterface {
   surat: SuratModel;
+  isModalOpen: boolean,
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>
 }
-const RequestedTableFormAdmin = ({ surat }: HistoryTableFormAdminInterface) => {
+const RequestedTableFormAdmin = ({ surat, isModalOpen, setIsModalOpen }: HistoryTableFormAdminInterface) => {
   return (
     <tr
       key={surat.id}
@@ -28,9 +30,9 @@ const RequestedTableFormAdmin = ({ surat }: HistoryTableFormAdminInterface) => {
           tampilkan
         </Link>
       </td>
-      <td className="px-6 py-4">{surat.createdAt.toString().slice(0,25)}</td>
+      <td className="px-6 py-4">{surat.createdAt.toString().slice(0, 25)}</td>
       <td className="px-6 py-4">
-        <RequestedConfirmButton surat={surat} />
+        <RequestedConfirmButton isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} surat={surat} />
       </td>
     </tr>
   );

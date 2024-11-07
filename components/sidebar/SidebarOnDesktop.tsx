@@ -7,11 +7,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import SidebarLink from "./SidebarLink";
 import { CiUser } from "react-icons/ci";
-import { IoLogOutOutline } from "react-icons/io5";
-import { User } from "@prisma/client";
 import { MdMailOutline } from "react-icons/md";
-import Link from "next/link";
-import { signOut } from "@/auth";
 import SignOutButton from "./SignOutButton";
 import { UserModel } from "@/app/lib/models";
 

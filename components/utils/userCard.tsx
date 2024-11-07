@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 interface UserCardInterface {
   children: React.ReactNode;
   name: string | null | undefined;

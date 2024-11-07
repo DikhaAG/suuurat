@@ -14,16 +14,8 @@ const SignForm = () => {
             <span className="px-4 py-4 text-gray-600">{state?.message}</span>
           </div>
         ) : null}
-        <InputForm
-          name="name"
-          placeholder="Nama"
-          type="text"
-        />
-        <InputForm
-          name="password"
-          placeholder="Password"
-          type="password"
-        />
+        <InputForm name="name" placeholder="Nama" type="text" />
+        <InputForm name="password" placeholder="Password" type="password" />
         <div className="mt-8 mb-2">
           <JustButton
             label="Masuk"

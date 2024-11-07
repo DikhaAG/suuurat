@@ -1,3 +1,4 @@
+
 // import { deleteSuratById } from "@/app/lib/actions";
 // import { redirect } from "next/navigation";
 // import { useState } from "react";
@@ -73,16 +74,15 @@
 
 // export default RequestedTableBatal;
 
-import { deleteSuratById } from "@/app/lib/actions";
-import { redirect, useRouter } from "next/navigation";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import RequestedDeleteButton from "./RequestedDeleteButton";
 
 interface RequestedTableBatalInterface {
   suratId: string;
+  isModalOpen: boolean,
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>
 }
-const RequestedTableBatal = ({ suratId }: RequestedTableBatalInterface) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+const RequestedTableBatal = ({ suratId, isModalOpen, setIsModalOpen }: RequestedTableBatalInterface) => {
   return (
     <div className="flex flex-row gap-5">
       <button
@@ -118,7 +118,7 @@ const RequestedTableBatal = ({ suratId }: RequestedTableBatalInterface) => {
                 </div>
               </div>
               <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <RequestedDeleteButton suratId={suratId} />
+                <RequestedDeleteButton suratId={suratId} setIsModalOpen={setIsModalOpen} />
                 <button
                   onClick={() => setIsModalOpen(!isModalOpen)}
                   type="button"

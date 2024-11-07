@@ -1,20 +1,27 @@
+"use client";
 import { deleteSuratById } from "@/app/lib/actions";
-import { redirect, useRouter } from "next/navigation";
+import { Dispatch, SetStateAction } from "react";
 
-const RequestedDeleteButton = ({ suratId }: { suratId: string }) => {
-  const router = useRouter();
+const RequestedDeleteButton = ({
+  suratId,
+  setIsModalOpen,
+}: {
+  suratId: string;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
   return (
-    <button
-      onClick={async () => {
-        deleteSuratById(suratId).then(
-          (res) => res && router.push("/admin/requested")
-        );
+    <form
+      action={() => {
+        deleteSuratById(suratId).then((res) => res && setIsModalOpen(false));
       }}
-      type="button"
-      className="inline-flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600 sm:ml-3 sm:w-auto"
     >
-      Batalkan
-    </button>
+      <button
+        type="submit"
+        className="inline-flex w-full justify-center rounded-md disabled:opacity-50 disabled:cursor-progress bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 sm:ml-3 sm:w-auto"
+      >
+        Batalkan
+      </button>
+    </form>
   );
 };
 export default RequestedDeleteButton;

@@ -1,4 +1,3 @@
-import { SVGProps } from "react";
 import { IconType } from "react-icons";
 
 export interface SidebarListInterface {

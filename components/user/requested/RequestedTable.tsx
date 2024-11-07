@@ -1,7 +1,6 @@
 "use client";
 import NoResultFound from "../../utils/NoResultFound";
 import RequestedTableForm from "./RequestedTableForm";
-import { Surat } from "@prisma/client";
 import LoadingResult from "@/components/utils/LoadingResult";
 import { SuratModel, UserModel } from "@/app/lib/models";
 import { useEffect, useState } from "react";
@@ -12,13 +11,14 @@ interface RequestedTableInterface {
 }
 const RequestedTable = ({ user }: RequestedTableInterface) => {
   const [surat, setSurat] = useState<Array<SuratModel> | undefined>();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const getSurat = async () => {
     const res = await getRequestedSuratByAuthorId(user?.id);
     setSurat(res);
   };
   useEffect(() => {
     getSurat();
-  }, []);
+  }, [isModalOpen]);
   return (
     <div className="h-full">
       {surat === undefined ? (
@@ -46,7 +46,12 @@ const RequestedTable = ({ user }: RequestedTableInterface) => {
                 </thead>
                 <tbody className="">
                   {surat.map((s) => (
-                    <RequestedTableForm key={s.id} surat={s} />
+                    <RequestedTableForm
+                      isModalOpen={isModalOpen}
+                      setIsModalOpen={setIsModalOpen}
+                      key={s.id}
+                      surat={s}
+                    />
                   ))}
                 </tbody>
               </table>
