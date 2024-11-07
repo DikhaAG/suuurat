@@ -13,6 +13,7 @@ import { MdMailOutline } from "react-icons/md";
 import Link from "next/link";
 import { signOut } from "@/auth";
 import SignOutButton from "./SignOutButton";
+import { UserModel } from "@/app/lib/models";
 
 const containerVariants = {
   open: {
@@ -43,7 +44,7 @@ const arrowVariants = {
 
 interface SidebarOnDesktopInterface {
   children: React.ReactNode;
-  user: User | null;
+  user: UserModel | null;
 }
 const SidebarOnDesktop = ({ children, user }: SidebarOnDesktopInterface) => {
   const pathName = usePathname();

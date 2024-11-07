@@ -17,6 +17,7 @@ import { User } from "@prisma/client";
 import SidebarLink from "./SidebarLink";
 import { signOut } from "@/auth";
 import SignOutButton from "./SignOutButton";
+import { UserModel } from "@/app/lib/models";
 
 const containerVariants = {
   open: {
@@ -41,7 +42,7 @@ const containerVariants = {
 
 interface SidebarOnMobileInterface {
   children: React.ReactNode;
-  user: User | null;
+  user: UserModel | null;
 }
 const SidebarOnMobile = ({ children, user }: SidebarOnMobileInterface) => {
   const pathName = usePathname();
