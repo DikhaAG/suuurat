@@ -11,7 +11,7 @@ const UserRequestedViewerPage = async () => {
     <div className="flex flex-col gap-3">
       <div className="flex flex-row w-full">
         <Link
-          href={"/user/requested"}
+          href={"/user/history"}
           className="bg-blue-500 rounded-lg px-3 py-2 text-white"
         >
           kembali
