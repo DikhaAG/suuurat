@@ -13,12 +13,7 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-const poppins_init = Poppins({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-poppins",
-  weight: ["300", "600"],
-});
+
 
 export const metadata: Metadata = {
   title: "Surat",
@@ -33,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins_init.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={` ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
       </body>
