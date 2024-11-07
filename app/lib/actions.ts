@@ -1,7 +1,7 @@
 "use server";
 import { suratSchema, signInSchema } from "@/app/lib/zod";
 import { put, del } from "@vercel/blob";
-import { prisma } from "@/app/lib/prisma";
+import {prisma} from "@/app/lib/prisma"
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
@@ -72,6 +72,7 @@ export const deleteSuratById = async (id: string) => {
       });
     return true
     } catch (error) {
+      console.log(error)
       return false;
     }
   }
@@ -204,7 +205,7 @@ export const getRequestedSuratByAuthorId = async (
 
 export const confirmSuratById = async (id: string, note: string) => {
   try {
-    const res = await prisma.surat.update({
+    await prisma.surat.update({
       where: {
         id,
       },
@@ -215,7 +216,7 @@ export const confirmSuratById = async (id: string, note: string) => {
     });
     return true
   } catch (error) {
-    console.log("gagal memverifikasi surat")
+    console.log(error)
     return false
   }
 };

@@ -1,10 +1,10 @@
-import HistoryTableAdmin from "@/components/admin/dashboard/history/HistoryTableAdmin";
+import RequestedTableAdmin from "@/components/admin/dashboard/requested/RequestedTableAdmin";
 import Link from "next/link";
 
 export const metadata = {
   title: "Admin - Riwayat",
 };
-const AdminHistoryPage = () => {
+const AdminRequestedPage = () => {
   return (
     <div className="flex flex-col justify-between text-neutral-700 h-full">
       <div className="flex flex-col gap-3 h-full">
@@ -14,13 +14,13 @@ const AdminHistoryPage = () => {
         >
           {"<"}
         </Link>
-        <div className="text-4xl font-semibold mb-10">Riwayat Surat</div>
+        <div className="text-4xl font-semibold mb-10">Menunggu Verifikasi</div>
         <div className="h-full">
-          <HistoryTableAdmin />
+          <RequestedTableAdmin />
         </div>
       </div>
     </div>
   );
 };
 
-export default AdminHistoryPage;
+export default AdminRequestedPage;

@@ -1,20 +1,11 @@
 "use client";
 import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
+import 'react-pdf/dist/Page/AnnotationLayer.css';
+import 'react-pdf/dist/Page/TextLayer.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
-////////////////
-// import path from 'node:path';
-// import fs from 'node:fs';
 
-// const pdfjsDistPath = path.dirname(require.resolve('pdfjs-dist/package.json'));
-// const pdfWorkerPath = path.join(pdfjsDistPath, 'build', 'pdf.worker.mjs');
-
-// fs.cpSync(pdfWorkerPath, './dist/pdf.worker.mjs', { recursive: true });
-////////////
-//pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
-//////////
-//pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 interface FileViewerReactPdfInterface {
   file: string;
 }

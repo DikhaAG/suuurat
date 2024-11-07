@@ -1,6 +1,6 @@
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
 
-const AdminLayoutPage = async ({
+const AdminLayoutPage = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
