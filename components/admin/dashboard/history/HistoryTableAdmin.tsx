@@ -32,6 +32,9 @@ const HistoryTableAdmin = () => {
                       Subjek
                     </th>
                     <th scope="col" className="px-6 py-3">
+                      Pembuat
+                    </th>
+                    <th scope="col" className="px-6 py-3">
                       Penerima
                     </th>
                     <th scope="col" className="px-6 py-3">

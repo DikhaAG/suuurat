@@ -16,6 +16,7 @@ const HistoryTableFormAdmin = ({ surat }: HistoryTableFormAdminInterface) => {
       >
         {surat.subject}
       </th>
+      <td className="px-6 py-4">{surat.author.name}</td>
       <td className="px-6 py-4">{surat.receiver}</td>
       <td className="px-6 py-4">
         <Link
