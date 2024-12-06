@@ -1,7 +1,7 @@
 "use server";
 import { suratSchema, signInSchema } from "@/app/lib/zod";
 import { put, del } from "@vercel/blob";
-import {prisma} from "@/app/lib/prisma"
+import { prisma } from "@/app/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
@@ -70,13 +70,12 @@ export const deleteSuratById = async (id: string) => {
       await prisma.surat.delete({
         where: { id },
       });
-    return true
+      return true;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return false;
     }
   }
-
 };
 
 export const countAllConfirmedSurat = async () => {
@@ -97,27 +96,30 @@ export const countAllRequestedSurat = async () => {
   return res;
 };
 
-export const getAllConfirmedSurat = async () => {
-  const res = await prisma.surat.findMany({
-    where: {
-      status: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    select: {
-      id: true,
-      subject: true,
-      author: true,
-      receiver: true,
-      file: true,
-      status: true,
-      noted: true,
-      createdAt: true,
-    },
-  });
-  return res;
-};
+export const getAllConfirmedSurat = async () =>
+  // select: Prisma.SuratSelect<DefaultArgs>,
+  {
+    const res = await prisma.surat.findMany({
+      where: {
+        status: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        subject: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+        receiver: true,
+        createdAt: true,
+      },
+    });
+    return res;
+  };
 
 export const getAllRequestedSurat = async () => {
   const res = await prisma.surat.findMany({
@@ -142,7 +144,7 @@ export const getAllRequestedSurat = async () => {
 };
 
 export const getConfirmedSuratByAuthorId = async (
-  authorId: string | null | undefined
+  authorId: string | null | undefined,
 ) => {
   if (authorId) {
     const res = await prisma.surat.findMany({
@@ -173,7 +175,7 @@ export const getConfirmedSuratByAuthorId = async (
 };
 
 export const getRequestedSuratByAuthorId = async (
-  authorId: string | null | undefined
+  authorId: string | null | undefined,
 ) => {
   if (authorId) {
     const res = await prisma.surat.findMany({
@@ -214,16 +216,16 @@ export const confirmSuratById = async (id: string, note: string) => {
         noted: note,
       },
     });
-    return true
+    return true;
   } catch (error) {
-    console.log(error)
-    return false
+    console.log(error);
+    return false;
   }
 };
 
 export const kirim = async (prevState: unknown, formData: FormData) => {
   const validatedFields = suratSchema.safeParse(
-    Object.fromEntries(formData.entries())
+    Object.fromEntries(formData.entries()),
   );
   if (!validatedFields.success) {
     console.log(validatedFields.error.flatten().fieldErrors);
@@ -261,10 +263,10 @@ export const kirim = async (prevState: unknown, formData: FormData) => {
 
 export const signInCredentials = async (
   prevState: unknown,
-  formData: FormData
+  formData: FormData,
 ) => {
   const validatedFields = signInSchema.safeParse(
-    Object.fromEntries(formData.entries())
+    Object.fromEntries(formData.entries()),
   );
 
   if (!validatedFields.success) {
