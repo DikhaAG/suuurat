@@ -1,22 +1,27 @@
-import HistoryTableAdmin from "@/components/admin/dashboard/history/HistoryTableAdmin";
+import { getAllConfirmedSurat } from "@/app/lib/actions";
+import { AdminHistoryColumns } from "@/components/admin/dashboard/history/columns";
+import { AdminHistoryDataTable } from "@/components/admin/dashboard/history/data-table";
 import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+import { ChevronLeft } from "lucide-react";
 
 export const metadata = {
   title: "Admin - Riwayat",
 };
-const AdminHistoryPage = () => {
+const AdminHistoryPage = async () => {
+  const data = await getAllConfirmedSurat();
   return (
-    <div className="flex flex-col justify-between text-neutral-700 h-full">
-      <div className="flex flex-col gap-3 h-full">
-        <Link
-          href="/admin"
-          className="w-fit text-white font-bold px-4 py-2 bg-blue-500 hover:bg-blue-600 hover:scale-105 rounded-lg "
-        >
-          {"<"}
-        </Link>
+    <div className="flex flex-col justify-between text-neutral-700">
+      <div className="flex flex-col gap-3">
+        <Button variant={"ghost"} className="w-fit">
+          <Link href="/admin">
+            <ChevronLeft />
+          </Link>
+        </Button>
         <div className="text-4xl font-semibold mb-10">Riwayat Surat</div>
-        <div className="h-full">
-          <HistoryTableAdmin />
+        <div className="container">
+          <AdminHistoryDataTable columns={AdminHistoryColumns} data={data} />
         </div>
       </div>
     </div>
