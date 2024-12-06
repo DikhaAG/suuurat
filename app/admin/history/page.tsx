@@ -16,7 +16,10 @@ const AdminHistoryPage = async () => {
       <div className="flex flex-col gap-3">
         <Button variant={"ghost"} className="w-fit">
           <Link href="/admin">
-            <ChevronLeft />
+            <Button variant={"ghost"} className="w-fit">
+              <ChevronLeft />
+              Kembali
+            </Button>
           </Link>
         </Button>
         <div className="text-4xl font-semibold mb-10">Riwayat Surat</div>

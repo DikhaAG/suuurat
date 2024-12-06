@@ -34,7 +34,7 @@ const AdminHistoryViewerPage = () => {
   const [surat, setSurat] = useState<SuratModel | null>();
   useEffect(() => {
     getSuratById(suratId).then((res) => setSurat(res));
-  }, []);
+  }, [suratId]);
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-row w-full">
