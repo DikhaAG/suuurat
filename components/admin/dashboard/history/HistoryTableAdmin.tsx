@@ -1,14 +1,25 @@
 "use client";
+import Link from "next/link";
+
 import { getAllConfirmedSurat } from "@/app/lib/actions";
 import NoResultFound from "@/components/utils/NoResultFound";
 import { useEffect, useState } from "react";
 import LoadingResult from "@/components/utils/LoadingResult";
-import HistoryTableFormAdmin from "./HistoryTableFormAdmin";
-import { SuratModel } from "@/app/lib/models";
+import { ConfirmedSuratModel } from "@/app/lib/models";
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const HistoryTableAdmin = () => {
   const [confirmedSurat, setConfirmedSurat] = useState<
-    Array<SuratModel> | undefined
+    Array<ConfirmedSuratModel> | undefined
   >();
   const getSurat = async () => {
     const res = await getAllConfirmedSurat();
@@ -18,48 +29,46 @@ const HistoryTableAdmin = () => {
     getSurat();
   }, []);
   return (
-    <div className="h-full">
+    <>
       {confirmedSurat === undefined ? (
         <LoadingResult />
       ) : confirmedSurat.length > 0 ? (
-        <>
-          <div className="">
-            <div className="relative overflow-x-auto shadow-md rounded-lg">
-              <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-blue-500">
-                <thead className="text-xs uppercase bg-blue-500 text-white">
-                  <tr>
-                    <th scope="col" className="px-6 py-3">
-                      Subjek
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Pembuat
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Penerima
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      File
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Dibuat
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="">
-                  {confirmedSurat.map((s) => (
-                    <HistoryTableFormAdmin key={s.id} surat={s} />
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </>
+        <Table>
+          <TableCaption>List surat yang terkonfirmasi</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Subjek</TableHead>
+              <TableHead>Pembuat</TableHead>
+              <TableHead>Penerima</TableHead>
+              <TableHead>Dibuat</TableHead>
+              <TableHead className="text-right">File</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {confirmedSurat.map((surat) => (
+              <TableRow key={surat.id}>
+                <TableCell className="font-medium">{surat.subject}</TableCell>
+                <TableCell>{surat.author.name}</TableCell>
+                <TableCell>{surat.receiver}</TableCell>
+
+                <TableCell>{surat.createdAt.toString().slice(0, 25)}</TableCell>
+                <TableCell className="text-right">
+                  <Link
+                    href={`/admin/history/viewer/${surat.id}`}
+                    className="text-blue-500"
+                  >
+                    tampilkan
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       ) : (
-        <>
-          <NoResultFound />
-        </>
+        <NoResultFound />
       )}
-    </div>
+      ;
+    </>
   );
 };
 
