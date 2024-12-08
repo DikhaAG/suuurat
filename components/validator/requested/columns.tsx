@@ -4,6 +4,16 @@ import { MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,7 +24,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ConfirmedSuratTableModel } from "@/app/lib/models";
+import { Separator } from "@/components/ui/separator";
+import { Surat } from "@prisma/client";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { SuratModel } from "@/app/lib/models";
+import { Textarea } from "@/components/ui/textarea";
+import ValidateDialog from "./validate-dialog";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -23,7 +39,7 @@ interface AuthorType {
   name: string;
 }
 
-export const AdminHistoryColumnHeader: { [key: string]: string } = {
+export const ValidatorRequestedTableColumnHeader: { [key: string]: string } = {
   subject: "subjek",
   author: "penulis",
   receiver: "penerima",
@@ -31,7 +47,7 @@ export const AdminHistoryColumnHeader: { [key: string]: string } = {
   actions: "opsi",
 };
 
-export const AdminHistoryColumns: ColumnDef<ConfirmedSuratTableModel>[] = [
+export const ValidatorRequestedTableColumns: ColumnDef<SuratModel>[] = [
   {
     accessorKey: "subject",
     header: ({ column }) => {
@@ -109,7 +125,7 @@ export const AdminHistoryColumns: ColumnDef<ConfirmedSuratTableModel>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const confirmedSurat = row.original;
+      const requestedSurat = row.original;
 
       return (
         <DropdownMenu>
@@ -121,13 +137,17 @@ export const AdminHistoryColumns: ColumnDef<ConfirmedSuratTableModel>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Opsi</DropdownMenuLabel>
+            <Separator />
             <DropdownMenuItem>
               <Link
-                href={`/admin/history/viewer/${confirmedSurat.id}`}
+                href={`/validator/requested/viewer/${requestedSurat.id}`}
                 className=" hover:cursor-pointer"
               >
-                Tampilkan berkas
+                Lihat berkas
               </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <ValidateDialog surat={requestedSurat} />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

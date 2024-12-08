@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { ChartColumnBig, Timer, CheckCheck } from "lucide-react";
+import { ChartColumnBig, Mail, CheckCheck } from "lucide-react";
 
 import {
   SidebarGroup,
@@ -21,12 +21,12 @@ const items = [
     icon: ChartColumnBig,
   },
   {
-    title: "Menunggu validasi",
+    title: "Inbox",
     url: "/validator/requested",
-    icon: Timer,
+    icon: Mail,
   },
   {
-    title: "Riwayat",
+    title: "Sukses",
     url: "/validator/history",
     icon: CheckCheck,
   },

@@ -20,12 +20,12 @@ const items = [
     icon: ChartColumnBig,
   },
   {
-    title: "Menunggu persetujuan",
+    title: "Menunggu validasi",
     url: "/admin/requested",
     icon: Timer,
   },
   {
-    title: "Riwayat",
+    title: "Sukses",
     url: "/admin/history",
     icon: CheckCheck,
   },

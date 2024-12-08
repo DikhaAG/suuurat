@@ -14,7 +14,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ConfirmedSuratTableModel } from "@/app/lib/models";
+import { Separator } from "@/components/ui/separator";
+import { ValidationStageModel } from "@/app/lib/models";
+import { Surat } from "@prisma/client";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -23,15 +25,16 @@ interface AuthorType {
   name: string;
 }
 
-export const AdminHistoryColumnHeader: { [key: string]: string } = {
+export const AdminRequestedColumnHeader: { [key: string]: string } = {
   subject: "subjek",
   author: "penulis",
   receiver: "penerima",
+  validationStage: "validator",
   createdAt: "dibuat",
   actions: "opsi",
 };
 
-export const AdminHistoryColumns: ColumnDef<ConfirmedSuratTableModel>[] = [
+export const AdminRequestedColumns: ColumnDef<Surat>[] = [
   {
     accessorKey: "subject",
     header: ({ column }) => {
@@ -87,6 +90,25 @@ export const AdminHistoryColumns: ColumnDef<ConfirmedSuratTableModel>[] = [
     },
   },
   {
+    accessorKey: "validationStage",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant={"ghost"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Validator <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const validatorName = (
+        row.getValue("validationStage") as ValidationStageModel
+      ).validator.name;
+      return validatorName;
+    },
+  },
+  {
     accessorKey: "createdAt",
     header: ({ column }) => {
       return (
@@ -121,12 +143,13 @@ export const AdminHistoryColumns: ColumnDef<ConfirmedSuratTableModel>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Opsi</DropdownMenuLabel>
+            <Separator />
             <DropdownMenuItem>
               <Link
                 href={`/admin/history/viewer/${confirmedSurat.id}`}
                 className=" hover:cursor-pointer"
               >
-                Tampilkan berkas
+                Lihat berkas
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>

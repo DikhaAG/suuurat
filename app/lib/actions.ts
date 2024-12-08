@@ -35,10 +35,25 @@ export const countAllValidationStage = async () => {
   return res;
 };
 
-export const getValidationStageById = async (validatorId: string) => {
+export const getValidationStageByValidatorId = async (validatorId: string) => {
   const res = await prisma.validationStage.findUnique({
     where: {
       validatorId,
+    },
+    include: {
+      validator: true,
+      surat: true,
+    },
+  });
+  return res;
+};
+
+export const getValidationStageByTitle = async (
+  validationStageTitle: number,
+) => {
+  const res = await prisma.validationStage.findUnique({
+    where: {
+      title: validationStageTitle,
     },
     include: {
       validator: true,
@@ -77,10 +92,10 @@ export const getAllSurat = async () => {
   return res;
 };
 
-export const getSuratById = async (id: string) => {
+export const getSuratById = async (suratId: string) => {
   const res = await prisma.surat.findUnique({
     where: {
-      id,
+      id: suratId,
     },
     include: { author: true, validationStage: true, notes: true },
   });
@@ -150,7 +165,27 @@ export const getAllRequestedSurat = async () => {
     where: {
       validationStatus: false,
     },
-    include: { author: true, validationStage: true, notes: true },
+    // select: {
+    //   id: true,
+    //   subject: true,
+    //   author: true,
+    //   receiver: true,
+    //   file: true,
+    //   validationStage: true,
+    //   validationStatus: true,
+    //   notes: true,
+    //   createdAt: true,
+    //   updatedAt: true,
+    // },
+    include: {
+      author: true,
+      validationStage: {
+        include: {
+          validator: true,
+        },
+      },
+      notes: true,
+    },
     orderBy: {
       createdAt: "desc",
     },
@@ -158,10 +193,36 @@ export const getAllRequestedSurat = async () => {
   return res;
 };
 
-export const getAllValidationSurat = async (validationStageId: string) => {
+export const getAllValidationSuratByStageId = async (
+  validationStageId: string,
+) => {
   const res = await prisma.surat.findMany({
     where: { AND: [{ validationStatus: false }, { validationStageId }] },
-    include: { author: true, validationStage: true, notes: true },
+    include: {
+      author: true,
+      validationStage: { include: { validator: true } },
+      notes: true,
+    },
+  });
+
+  return res;
+};
+
+export const getAllValidationSuratByStageTitle = async (
+  validationStageTitle: number,
+) => {
+  const res = await prisma.surat.findMany({
+    where: {
+      AND: [
+        { validationStatus: false },
+        { validationStage: { title: validationStageTitle } },
+      ],
+    },
+    include: {
+      author: true,
+      validationStage: { include: { validator: true } },
+      notes: true,
+    },
   });
 
   return res;
@@ -218,7 +279,7 @@ export const validateSuratById = async (
   validatorId: string,
 ) => {
   try {
-    const validationStage = await getValidationStageById(validatorId);
+    const validationStage = await getValidationStageByValidatorId(validatorId);
     const validationStageCount = await countAllValidationStage();
 
     if (validationStage) {
@@ -286,20 +347,30 @@ export const kirim = async (prevState: unknown, formData: FormData) => {
     multipart: true,
   });
 
-  try {
-    await prisma.surat.create({
-      data: {
-        subject,
-        authorId,
-        receiver,
-        file: url,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-    return {
-      message: "gagal mengirim surat",
-    };
+  const validationStageCount = await prisma.validationStage.count();
+  const validationStage = await prisma.validationStage.findUnique({
+    where: {
+      title: 1,
+    },
+  });
+
+  if (validationStageCount > 0) {
+    try {
+      await prisma.surat.create({
+        data: {
+          subject,
+          authorId,
+          receiver,
+          file: url,
+          validationStageId: validationStage?.id,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      return {
+        message: "gagal mengirim surat",
+      };
+    }
   }
 
   revalidatePath("/user");

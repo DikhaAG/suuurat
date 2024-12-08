@@ -1,14 +1,14 @@
 "use client";
 import { getSuratById } from "@/app/lib/actions";
+import { Surat } from "@prisma/client";
 import FileViewerReactPdf from "@/components/utils/FileViewerReactPdf";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Surat } from "@prisma/client";
+import { ChevronLeft } from "lucide-react";
 
-const UserRequestedViewerPage = () => {
+const ValidatorRequestedViewerPage = () => {
   const { suratId } = useParams<{ suratId: string }>();
   const [surat, setSurat] = useState<Surat | null>();
   useEffect(() => {
@@ -17,16 +17,16 @@ const UserRequestedViewerPage = () => {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-row w-full">
-        <Button asChild variant={"ghost"} className="w-fit">
-          <Link href="/user/history">
+        <Link href="/validator/requested">
+          <Button variant={"ghost"} className="w-fit">
             <ChevronLeft />
             Kembali
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </div>
       <FileViewerReactPdf file={surat?.file as string} />
     </div>
   );
 };
 
-export default UserRequestedViewerPage;
+export default ValidatorRequestedViewerPage;

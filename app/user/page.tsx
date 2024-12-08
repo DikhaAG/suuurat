@@ -9,12 +9,15 @@ export const metadata = {
 
 const UserHomePage = async () => {
   const session = await auth();
-  const user = await getUserByName(session?.user?.name)
+  const user = await getUserByName(session?.user?.name);
   if (!user) {
-    return redirect("/")
-  }else if(user.isAdmin) {
-    return redirect("/admin")
+    return redirect("/");
+  } else if (user.role === "ADMIN") {
+    return redirect("/admin");
+  } else if (user.role === "VALIDATOR") {
+    return redirect("/validator");
   }
+
   return (
     <div className="flex flex-col justify-between text-neutral-700 h-full">
       <div className="flex flex-col gap-3 h-full">

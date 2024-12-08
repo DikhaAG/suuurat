@@ -38,7 +38,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function AdminHistoryDataTable<TData, TValue>({
+export function ValidatorHistoryDataTable<TData, TValue>({
   columns,
   columnHeader,
   data,

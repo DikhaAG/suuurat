@@ -17,24 +17,41 @@ export interface UserModel {
   updatedAt: Date;
   createdAt: Date;
 }
+
+export interface ValidationStageModel {
+  id: string;
+  title: number;
+  validator: UserModel;
+  surat: Surat[];
+}
+
 export interface SuratModel {
   id: string;
   subject: string;
   author: User;
   receiver: string;
   file: string;
-  status: boolean;
-  noted: string | null;
-  validationStage: ValidationStage;
-  validationStageId: string;
+  validationStage: ValidationStage | null;
   validationStatus: boolean;
-  notes: SuratNote[];
+  notes: SuratNote[] | null;
   createdAt: Date;
+  updatedAt: Date;
 }
-export interface ConfirmedSuratModel {
+
+export interface RequestedSuratTableModel {
   id: string;
   subject: string;
-  author: { name: string };
+  author: UserModel;
+  receiver: string;
+  validationStage: ValidationStageModel | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ConfirmedSuratTableModel {
+  id: string;
+  subject: string;
+  author: UserModel;
   receiver: string;
   createdAt: Date;
 }

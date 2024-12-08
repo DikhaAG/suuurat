@@ -1,5 +1,8 @@
 import { getAllConfirmedSurat } from "@/app/lib/actions";
-import { AdminHistoryColumns } from "@/components/admin/history/columns";
+import {
+  AdminHistoryColumns,
+  AdminHistoryColumnHeader,
+} from "@/components/admin/history/columns";
 import { AdminHistoryDataTable } from "@/components/admin/history/data-table";
 import Link from "next/link";
 
@@ -12,20 +15,25 @@ export const metadata = {
 const AdminHistoryPage = async () => {
   const data = await getAllConfirmedSurat();
   return (
-    <div className="flex flex-col justify-between text-neutral-700">
+    <>
       <div className="flex flex-col gap-3">
-        <Link href="/admin">
-          <Button variant={"ghost"} className="w-fit">
+        <Button asChild variant={"ghost"} className="w-fit">
+          <Link href="/admin">
             <ChevronLeft />
             Kembali
-          </Button>
-        </Link>
+          </Link>
+        </Button>
+
         <div className="text-4xl font-semibold mb-10">Riwayat Surat</div>
         <div className="container">
-          <AdminHistoryDataTable columns={AdminHistoryColumns} data={data} />
+          <AdminHistoryDataTable
+            columns={AdminHistoryColumns}
+            columnHeader={AdminHistoryColumnHeader}
+            data={data}
+          />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

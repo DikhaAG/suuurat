@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Timer, CheckCheck } from "lucide-react";
+import { Timer, CheckCheck, Plus } from "lucide-react";
 
 import {
   SidebarGroup,
@@ -12,6 +12,11 @@ import {
 } from "@/components/ui/sidebar";
 
 const items = [
+  {
+    title: "Bikin surat",
+    url: "/user",
+    icon: Plus,
+  },
   {
     title: "Menunggu persetujuan",
     url: "/user/requested",

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ConfirmedSuratTableModel } from "@/app/lib/models";
+import { Surat } from "@prisma/client";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -23,7 +23,7 @@ interface AuthorType {
   name: string;
 }
 
-export const AdminHistoryColumnHeader: { [key: string]: string } = {
+export const ValidatorHistoryTableColumnHeader: { [key: string]: string } = {
   subject: "subjek",
   author: "penulis",
   receiver: "penerima",
@@ -31,7 +31,7 @@ export const AdminHistoryColumnHeader: { [key: string]: string } = {
   actions: "opsi",
 };
 
-export const AdminHistoryColumns: ColumnDef<ConfirmedSuratTableModel>[] = [
+export const ValidatorHistoryTableColumns: ColumnDef<Surat>[] = [
   {
     accessorKey: "subject",
     header: ({ column }) => {
@@ -126,7 +126,7 @@ export const AdminHistoryColumns: ColumnDef<ConfirmedSuratTableModel>[] = [
                 href={`/admin/history/viewer/${confirmedSurat.id}`}
                 className=" hover:cursor-pointer"
               >
-                Tampilkan berkas
+                Lihat berkas
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>

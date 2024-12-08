@@ -18,12 +18,12 @@ const AdminHistoryViewerPage = () => {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-row w-full">
-        <Link href="/admin/history">
-          <Button variant={"ghost"} className="w-fit">
+        <Button asChild variant={"ghost"} className="w-fit">
+          <Link href="/admin/requested">
             <ChevronLeft />
             Kembali
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
       <FileViewerReactPdf file={surat?.file as string} />
     </div>
