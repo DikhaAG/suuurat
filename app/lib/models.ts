@@ -18,3 +18,10 @@ export interface SuratModel {
   noted: string | null;
   createdAt: Date;
 }
+export interface ConfirmedSuratModel {
+  id: string;
+  subject: string;
+  author: { name: string };
+  receiver: string;
+  createdAt: Date;
+}

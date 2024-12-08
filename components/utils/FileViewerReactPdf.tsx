@@ -4,6 +4,8 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 
+import { Button } from "@/components/ui/button";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface FileViewerReactPdfInterface {
@@ -18,21 +20,23 @@ const FileViewerReactPdf = ({ file }: FileViewerReactPdfInterface) => {
   }
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row w-fit mx-auto gap-5 text-2xl text-white">
-        <button
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => setPageNumber(pageNumber - 1)}
-          className={`bg-blue-500 hover:bg-blue-600 hover:scale-105 px-4 py-2 rounded-lg disabled:bg-blue-300`}
           disabled={pageNumber === 1 ? true : false}
         >
-          {"<"}
-        </button>
-        <button
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => setPageNumber(pageNumber + 1)}
-          className={`bg-blue-500 hover:bg-blue-600 hover:scale-105 px-4 py-2 rounded-lg disabled:bg-blue-300`}
           disabled={pageNumber === numPages ? true : false}
         >
-          {">"}
-        </button>
+          Next
+        </Button>
       </div>
       <div className="">
         <Document

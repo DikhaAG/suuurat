@@ -8,8 +8,8 @@ const SidebarLayout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const session = await auth()
-  const userData = await getUserByName(session?.user?.name)
+  const session = await auth();
+  const userData = await getUserByName(session?.user?.name);
 
   return (
     <SidebarOnDesktop user={userData}>
