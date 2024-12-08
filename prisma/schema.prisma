@@ -58,7 +58,7 @@ model User {
 }
 
 model ValidationStage {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(uuid())
   title       String  @unique
   validator   User    @relation("validationStage", fields: [validatorId], references: [id])
   validatorId String  @unique
@@ -66,18 +66,18 @@ model ValidationStage {
 }
 
 model Surat {
-  id                String          @id @default(uuid())
+  id                String           @id @default(uuid())
   subject           String
-  author            User            @relation("author", fields: [authorId], references: [id])
+  author            User             @relation("author", fields: [authorId], references: [id])
   authorId          String
   receiver          String
   file              String
-  status            Boolean         @default(false)
+  status            Boolean          @default(false)
   noted             String?
-  validationStage   ValidationStage @relation(fields: [validationStageId], references: [id])
-  validationStageId Int
-  validationStatus  Boolean         @default(false)
-  notes             SuratNote[]     @relation("suratNote")
+  validationStage   ValidationStage? @relation(fields: [validationStageId], references: [id])
+  validationStageId String?
+  validationStatus  Boolean          @default(false)
+  notes             SuratNote[]      @relation("suratNote")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
