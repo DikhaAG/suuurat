@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ConfirmedSuratTableModel } from "@/app/lib/models";
+import { Surat } from "@prisma/client";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -31,7 +31,7 @@ export const AdminHistoryColumnHeader: { [key: string]: string } = {
   actions: "opsi",
 };
 
-export const AdminHistoryColumns: ColumnDef<ConfirmedSuratTableModel>[] = [
+export const AdminHistoryColumns: ColumnDef<Surat>[] = [
   {
     accessorKey: "subject",
     header: ({ column }) => {
