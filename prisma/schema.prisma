@@ -44,7 +44,7 @@ model User {
   id              String           @id @default(uuid())
   name            String           @unique
   password        String
-  //isAdmin     Boolean   @default(false)
+  isAdmin         Boolean          @default(false)
   role            Role             @default(USER)
   surats          Surat[]          @relation("author")
   accounts        Account[]
@@ -72,6 +72,8 @@ model Surat {
   authorId          String
   receiver          String
   file              String
+  status            Boolean         @default(false)
+  noted             String?
   validationStage   ValidationStage @relation(fields: [validationStageId], references: [id])
   validationStageId Int
   validationStatus  Boolean         @default(false)
