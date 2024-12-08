@@ -3,17 +3,6 @@
 import { MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -25,11 +14,7 @@ import {
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Separator } from "@/components/ui/separator";
-import { Surat } from "@prisma/client";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { SuratModel } from "@/app/lib/models";
-import { Textarea } from "@/components/ui/textarea";
 import ValidateDialog from "./validate-dialog";
 
 // This type is used to define the shape of our data.
