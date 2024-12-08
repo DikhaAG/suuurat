@@ -1,14 +1,10 @@
 import { UserModel } from "@/app/lib/models";
 
-import { HiMiniPaperAirplane } from "react-icons/hi2";
-
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import SidebarContentAdmin from "./SidebarContentAdmin";
 import SidebarContentUser from "./SidebarContentUser";

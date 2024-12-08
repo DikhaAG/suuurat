@@ -8,10 +8,10 @@ import { useState, useEffect } from "react";
 
 const UserRequestedViewerPage = () => {
   const { suratId } = useParams<{ suratId: string }>();
-  const [surat, setSurat] = useState<SuratModel | null>()
+  const [surat, setSurat] = useState<SuratModel | null>();
   useEffect(() => {
-    getSuratById(suratId).then((res) => setSurat(res))
-  }, [])
+    getSuratById(suratId).then((res) => setSurat(res));
+  }, [suratId]);
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-row w-full">
