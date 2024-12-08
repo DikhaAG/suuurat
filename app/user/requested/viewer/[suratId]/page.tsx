@@ -13,7 +13,7 @@ const UserRequestedViewerPage = () => {
   const [surat, setSurat] = useState<Surat | null>();
   useEffect(() => {
     getSuratById(suratId).then((res) => setSurat(res));
-  }, []);
+  }, [suratId]);
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-row w-full">
