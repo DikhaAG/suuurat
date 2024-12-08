@@ -1,6 +1,6 @@
 import { getAllConfirmedSurat } from "@/app/lib/actions";
-import { AdminHistoryColumns } from "@/components/admin/dashboard/history/columns";
-import { AdminHistoryDataTable } from "@/components/admin/dashboard/history/data-table";
+import { AdminHistoryColumns } from "@/components/admin/history/columns";
+import { AdminHistoryDataTable } from "@/components/admin/history/data-table";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";

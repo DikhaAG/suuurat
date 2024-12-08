@@ -16,10 +16,13 @@ export const getUserByName = async (name: string | null | undefined) => {
       select: {
         id: true,
         name: true,
-        isAdmin: true,
         password: true,
-        surat: true,
+        role: true,
+        surats: true,
+        validationStage: true,
+        suratNotes: true,
         createdAt: true,
+        updatedAt: true,
       },
     });
     return res;
@@ -27,18 +30,49 @@ export const getUserByName = async (name: string | null | undefined) => {
   return null;
 };
 
+export const countAllValidationStage = async () => {
+  const res = await prisma.validationStage.count();
+  return res;
+};
+
+export const getValidationStageById = async (validatorId: string) => {
+  const res = await prisma.validationStage.findUnique({
+    where: {
+      validatorId,
+    },
+    include: {
+      validator: true,
+      surat: true,
+    },
+  });
+  return res;
+};
+
+export const createSuratNote = async (
+  suratId: string,
+  authorId: string,
+  message: string,
+) => {
+  try {
+    await prisma.suratNote.create({
+      data: {
+        message,
+        suratId,
+        authorId,
+      },
+    });
+  } catch (error) {
+    return {
+      message: "gagal membuat catatan surat!",
+      error: error,
+    };
+  }
+  return true;
+};
+
 export const getAllSurat = async () => {
   const res = await prisma.surat.findMany({
-    select: {
-      id: true,
-      subject: true,
-      author: true,
-      receiver: true,
-      file: true,
-      status: true,
-      noted: true,
-      createdAt: true,
-    },
+    include: { author: true, validationStage: true, notes: true },
   });
   return res;
 };
@@ -48,16 +82,7 @@ export const getSuratById = async (id: string) => {
     where: {
       id,
     },
-    select: {
-      id: true,
-      subject: true,
-      author: true,
-      receiver: true,
-      file: true,
-      status: true,
-      noted: true,
-      createdAt: true,
-    },
+    include: { author: true, validationStage: true, notes: true },
   });
   return res;
 };
@@ -81,7 +106,7 @@ export const deleteSuratById = async (id: string) => {
 export const countAllConfirmedSurat = async () => {
   const res = await prisma.surat.count({
     where: {
-      status: true,
+      validationStatus: true,
     },
   });
   return res;
@@ -90,7 +115,16 @@ export const countAllConfirmedSurat = async () => {
 export const countAllRequestedSurat = async () => {
   const res = await prisma.surat.count({
     where: {
-      status: false,
+      validationStatus: false,
+    },
+  });
+  return res;
+};
+
+export const countAllValidationSurat = async (validationStageId: string) => {
+  const res = await prisma.surat.count({
+    where: {
+      AND: [{ validationStatus: false }, { validationStageId }],
     },
   });
   return res;
@@ -101,22 +135,12 @@ export const getAllConfirmedSurat = async () =>
   {
     const res = await prisma.surat.findMany({
       where: {
-        status: true,
+        validationStatus: true,
       },
       orderBy: {
         createdAt: "desc",
       },
-      select: {
-        id: true,
-        subject: true,
-        author: {
-          select: {
-            name: true,
-          },
-        },
-        receiver: true,
-        createdAt: true,
-      },
+      include: { author: true, validationStage: true, notes: true },
     });
     return res;
   };
@@ -124,22 +148,22 @@ export const getAllConfirmedSurat = async () =>
 export const getAllRequestedSurat = async () => {
   const res = await prisma.surat.findMany({
     where: {
-      status: false,
+      validationStatus: false,
     },
-    select: {
-      id: true,
-      subject: true,
-      author: true,
-      receiver: true,
-      file: true,
-      status: true,
-      noted: true,
-      createdAt: true,
-    },
+    include: { author: true, validationStage: true, notes: true },
     orderBy: {
       createdAt: "desc",
     },
   });
+  return res;
+};
+
+export const getAllValidationSurat = async (validationStageId: string) => {
+  const res = await prisma.surat.findMany({
+    where: { AND: [{ validationStatus: false }, { validationStageId }] },
+    include: { author: true, validationStage: true, notes: true },
+  });
+
   return res;
 };
 
@@ -153,19 +177,10 @@ export const getConfirmedSuratByAuthorId = async (
           {
             authorId,
           },
-          { status: true },
+          { validationStatus: true },
         ],
       },
-      select: {
-        id: true,
-        subject: true,
-        author: true,
-        receiver: true,
-        file: true,
-        status: true,
-        noted: true,
-        createdAt: true,
-      },
+      include: { author: true, validationStage: true, notes: true },
       orderBy: {
         createdAt: "desc",
       },
@@ -184,19 +199,11 @@ export const getRequestedSuratByAuthorId = async (
           {
             authorId,
           },
-          { status: false },
+          { validationStatus: false },
         ],
       },
-      select: {
-        id: true,
-        subject: true,
-        author: true,
-        receiver: true,
-        file: true,
-        status: true,
-        noted: true,
-        createdAt: true,
-      },
+      include: { author: true, validationStage: true, notes: true },
+
       orderBy: {
         createdAt: "desc",
       },
@@ -205,17 +212,55 @@ export const getRequestedSuratByAuthorId = async (
   }
 };
 
-export const confirmSuratById = async (id: string, note: string) => {
+export const validateSuratById = async (
+  suratId: string,
+  note: string,
+  validatorId: string,
+) => {
   try {
-    await prisma.surat.update({
-      where: {
-        id,
-      },
-      data: {
-        status: true,
-        noted: note,
-      },
-    });
+    const validationStage = await getValidationStageById(validatorId);
+    const validationStageCount = await countAllValidationStage();
+
+    if (validationStage) {
+      if (validationStageCount > validationStage?.title) {
+        try {
+          await prisma.surat.update({
+            where: {
+              id: suratId,
+            },
+            data: {
+              validationStageId: validationStage.id + 1,
+            },
+          });
+
+          await createSuratNote(suratId, validatorId, note);
+        } catch (error) {
+          return {
+            message: "gagal memvalidasi surat",
+            error,
+          };
+        }
+      } else {
+        try {
+          await prisma.surat.update({
+            where: {
+              id: suratId,
+            },
+            data: {
+              validationStatus: true,
+            },
+          });
+
+          await createSuratNote(suratId, validatorId, note);
+        } catch (error) {
+          return {
+            message: "gagal memvalidasi surat",
+            error,
+          };
+        }
+      }
+    }
+
     return true;
   } catch (error) {
     console.log(error);

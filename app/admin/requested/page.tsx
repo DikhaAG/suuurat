@@ -1,4 +1,4 @@
-import RequestedTableAdmin from "@/components/admin/dashboard/requested/RequestedTableAdmin";
+import RequestedTableAdmin from "@/components/admin/requested/RequestedTableAdmin";
 import Link from "next/link";
 
 export const metadata = {
