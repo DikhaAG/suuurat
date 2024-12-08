@@ -26,7 +26,21 @@ interface AuthorType {
 export const AdminHistoryColumns: ColumnDef<ConfirmedSuratModel>[] = [
   {
     accessorKey: "subject",
-    header: "Subjek",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Subjek
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const subjek = row.getValue("subject");
+      return subjek;
+    },
   },
   {
     accessorKey: "author",
@@ -42,17 +56,41 @@ export const AdminHistoryColumns: ColumnDef<ConfirmedSuratModel>[] = [
       );
     },
     cell: ({ row }) => {
-      const pembuat = (row.getValue("author") as AuthorType).name;
-      return pembuat;
+      const penulis = (row.getValue("author") as AuthorType).name;
+      return penulis;
     },
   },
   {
     accessorKey: "receiver",
-    header: "Penerima",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Penerima
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const penerima = row.getValue("receiver");
+      return penerima;
+    },
   },
   {
     accessorKey: "createdAt",
-    header: "Dibuat",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Dibuat
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const dibuat = (row.getValue("createdAt") as Date)
         .toString()
@@ -74,7 +112,7 @@ export const AdminHistoryColumns: ColumnDef<ConfirmedSuratModel>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Opsi</DropdownMenuLabel>
             <DropdownMenuItem>
               <Link
                 href={`/admin/history/viewer/${confirmedSurat.id}`}

@@ -1,11 +1,11 @@
-import SidebarLayout from "@/components/sidebar/SidebarLayout";
+import SidebarLayoutProvider from "@/components/sidebar/SidebarLayoutProvider";
 
 const UserLayoutPage = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  return <SidebarLayout>{children}</SidebarLayout>;
+  return <SidebarLayoutProvider>{children}</SidebarLayoutProvider>;
 };
 
 export default UserLayoutPage;

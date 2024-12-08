@@ -10,7 +10,7 @@ import { LuTimer } from "react-icons/lu";
 import { RiDashboardLine, RiHistoryFill } from "react-icons/ri";
 import { CiUser } from "react-icons/ci";
 import UserCard from "../utils/userCard";
-import SidebarLink from "./SidebarLink";
+import SidebarLink from "./_SidebarLink";
 import SignOutButton from "./SignOutButton";
 import { UserModel } from "@/app/lib/models";
 

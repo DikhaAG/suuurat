@@ -1,10 +1,8 @@
 "use client";
-import Link from "next/link";
 
 import { getAllConfirmedSurat } from "@/app/lib/actions";
 import NoResultFound from "@/components/utils/NoResultFound";
 import { useEffect, useState } from "react";
-import LoadingResult from "@/components/utils/LoadingResult";
 import { ConfirmedSuratModel } from "@/app/lib/models";
 
 import {
@@ -16,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { SkeletonTableCard } from "@/components/utils/SkeletonTableCard";
 
 const HistoryTableAdmin = () => {
   const [confirmedSurat, setConfirmedSurat] = useState<
@@ -31,7 +30,7 @@ const HistoryTableAdmin = () => {
   return (
     <>
       {confirmedSurat === undefined ? (
-        <LoadingResult />
+        <SkeletonTableCard />
       ) : confirmedSurat.length > 0 ? (
         <Table>
           <TableCaption>List surat yang terkonfirmasi</TableCaption>
@@ -52,14 +51,6 @@ const HistoryTableAdmin = () => {
                 <TableCell>{surat.receiver}</TableCell>
 
                 <TableCell>{surat.createdAt.toString().slice(0, 25)}</TableCell>
-                <TableCell className="text-right">
-                  <Link
-                    href={`/admin/history/viewer/${surat.id}`}
-                    className="text-blue-500"
-                  >
-                    tampilkan
-                  </Link>
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>

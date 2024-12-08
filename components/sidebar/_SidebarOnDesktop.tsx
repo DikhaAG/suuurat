@@ -5,7 +5,7 @@ import { RiHistoryFill, RiDashboardLine } from "react-icons/ri";
 import BrandIcon from "../icons/BrandIcon";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import SidebarLink from "./SidebarLink";
+import SidebarLink from "./_SidebarLink";
 import { CiUser } from "react-icons/ci";
 import { MdMailOutline } from "react-icons/md";
 import SignOutButton from "./SignOutButton";

@@ -14,14 +14,12 @@ const AdminHistoryPage = async () => {
   return (
     <div className="flex flex-col justify-between text-neutral-700">
       <div className="flex flex-col gap-3">
-        <Button variant={"ghost"} className="w-fit">
-          <Link href="/admin">
-            <Button variant={"ghost"} className="w-fit">
-              <ChevronLeft />
-              Kembali
-            </Button>
-          </Link>
-        </Button>
+        <Link href="/admin">
+          <Button variant={"ghost"} className="w-fit">
+            <ChevronLeft />
+            Kembali
+          </Button>
+        </Link>
         <div className="text-4xl font-semibold mb-10">Riwayat Surat</div>
         <div className="container">
           <AdminHistoryDataTable columns={AdminHistoryColumns} data={data} />
