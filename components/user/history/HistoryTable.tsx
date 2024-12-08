@@ -17,7 +17,7 @@ const HistoryTable = ({ user }: HistoryTableInterface) => {
   };
   useEffect(() => {
     getSurat();
-  }, []);
+  }, [surat]);
   return (
     <div className="h-full">
       {surat === undefined ? (
