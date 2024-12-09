@@ -155,7 +155,11 @@ export const getAllConfirmedSurat = async () =>
       orderBy: {
         createdAt: "desc",
       },
-      include: { author: true, validationStage: true, notes: true },
+      include: {
+        author: true,
+        validationStage: { include: { validator: true, surat: true } },
+        notes: { include: { author: true, surat: true } },
+      },
     });
     return res;
   };
@@ -165,26 +169,15 @@ export const getAllRequestedSurat = async () => {
     where: {
       validationStatus: false,
     },
-    // select: {
-    //   id: true,
-    //   subject: true,
-    //   author: true,
-    //   receiver: true,
-    //   file: true,
-    //   validationStage: true,
-    //   validationStatus: true,
-    //   notes: true,
-    //   createdAt: true,
-    //   updatedAt: true,
-    // },
     include: {
       author: true,
       validationStage: {
         include: {
           validator: true,
+          surat: true,
         },
       },
-      notes: true,
+      notes: { include: { author: true, surat: true } },
     },
     orderBy: {
       createdAt: "desc",
@@ -200,8 +193,8 @@ export const getAllValidationSuratByStageId = async (
     where: { AND: [{ validationStatus: false }, { validationStageId }] },
     include: {
       author: true,
-      validationStage: { include: { validator: true } },
-      notes: true,
+      validationStage: { include: { validator: true, surat: true } },
+      notes: { include: { author: true, surat: true } },
     },
   });
 
@@ -220,8 +213,8 @@ export const getAllValidationSuratByStageTitle = async (
     },
     include: {
       author: true,
-      validationStage: { include: { validator: true } },
-      notes: true,
+      validationStage: { include: { validator: true, surat: true } },
+      notes: { include: { author: true, surat: true } },
     },
   });
 
@@ -241,7 +234,11 @@ export const getConfirmedSuratByAuthorId = async (
           { validationStatus: true },
         ],
       },
-      include: { author: true, validationStage: true, notes: true },
+      include: {
+        author: true,
+        validationStage: { include: { validator: true, surat: true } },
+        notes: { include: { author: true, surat: true } },
+      },
       orderBy: {
         createdAt: "desc",
       },
@@ -263,8 +260,11 @@ export const getRequestedSuratByAuthorId = async (
           { validationStatus: false },
         ],
       },
-      include: { author: true, validationStage: true, notes: true },
-
+      include: {
+        author: true,
+        validationStage: { include: { validator: true, surat: true } },
+        notes: { include: { author: true, surat: true } },
+      },
       orderBy: {
         createdAt: "desc",
       },
@@ -273,59 +273,96 @@ export const getRequestedSuratByAuthorId = async (
   }
 };
 
-export const validateSuratById = async (
+export const validateSurat = async (
   suratId: string,
   note: string,
+  validationStageTitle: number,
   validatorId: string,
 ) => {
   try {
-    const validationStage = await getValidationStageByValidatorId(validatorId);
     const validationStageCount = await countAllValidationStage();
 
-    if (validationStage) {
-      if (validationStageCount > validationStage?.title) {
-        try {
-          await prisma.surat.update({
-            where: {
-              id: suratId,
-            },
-            data: {
-              validationStageId: validationStage.id + 1,
-            },
-          });
+    if (validationStageCount > validationStageTitle) {
+      const nextStage = await getValidationStageByTitle(
+        validationStageTitle + 1,
+      );
 
-          await createSuratNote(suratId, validatorId, note);
-        } catch (error) {
-          return {
-            message: "gagal memvalidasi surat",
-            error,
-          };
-        }
-      } else {
-        try {
-          await prisma.surat.update({
-            where: {
-              id: suratId,
-            },
-            data: {
-              validationStatus: true,
-            },
-          });
+      try {
+        await prisma.surat.update({
+          where: {
+            id: suratId,
+          },
+          data: {
+            validationStageId: nextStage!.id,
+          },
+        });
 
-          await createSuratNote(suratId, validatorId, note);
-        } catch (error) {
-          return {
-            message: "gagal memvalidasi surat",
-            error,
-          };
+        if (note !== "") {
+          try {
+            await prisma.suratNote.create({
+              data: {
+                suratId,
+                message: note,
+                authorId: validatorId,
+              },
+            });
+          } catch (error) {
+            return JSON.stringify({
+              status: false,
+              message: "gagal membuat catatan surat",
+              error,
+            });
+          }
         }
+      } catch (error) {
+        return JSON.stringify({
+          message: "gagal memvalidasi surat",
+          error,
+        });
+      }
+    } else {
+      try {
+        await prisma.surat.update({
+          where: {
+            id: suratId,
+          },
+          data: {
+            validationStatus: true,
+          },
+        });
+
+        if (note !== "") {
+          try {
+            await prisma.suratNote.create({
+              data: {
+                suratId,
+                message: note,
+                authorId: validatorId,
+              },
+            });
+          } catch (error) {
+            return JSON.stringify({
+              status: false,
+              message: "gagal membuat catatan surat",
+              error,
+            });
+          }
+        }
+      } catch (error) {
+        return JSON.stringify({
+          message: "gagal memvalidasi surat",
+          error,
+        });
       }
     }
 
-    return true;
+    revalidatePath("/validator");
+    redirect("/validator/history");
   } catch (error) {
-    console.log(error);
-    return false;
+    return JSON.stringify({
+      status: false,
+      error,
+    });
   }
 };
 
@@ -400,7 +437,7 @@ export const signInCredentials = async (
       switch (error.type) {
         case "CredentialsSignin":
           return {
-            message: "Nama atau password salah!",
+            message: "Username atau password salah!",
           };
         default:
           return {

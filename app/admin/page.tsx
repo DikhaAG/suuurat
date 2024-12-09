@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Surat - Dashboard",
+  title: "Admin - Dashboard",
 };
 
 const AdminHomePage = async () => {

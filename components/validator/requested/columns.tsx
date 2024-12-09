@@ -16,6 +16,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Separator } from "@/components/ui/separator";
 import { SuratModel } from "@/app/lib/models";
 import ValidateDialog from "./validate-dialog";
+import NotesViewDialog from "./notes-view-dialog";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -131,6 +132,12 @@ export const ValidatorRequestedTableColumns: ColumnDef<SuratModel>[] = [
                 Lihat berkas
               </Link>
             </DropdownMenuItem>
+            {requestedSurat.validationStage?.title !== 1 && (
+              <DropdownMenuItem asChild>
+                <NotesViewDialog notes={requestedSurat.notes} />
+              </DropdownMenuItem>
+            )}
+            <Separator className="my-2" />
             <DropdownMenuItem asChild>
               <ValidateDialog surat={requestedSurat} />
             </DropdownMenuItem>

@@ -2,9 +2,9 @@ import { auth } from "@/auth";
 import {
   getUserByName,
   getValidationStageByValidatorId,
-  getAllValidationSuratByStageId,
   getAllValidationSuratByStageTitle,
   countAllValidationStage,
+  getAllConfirmedSurat,
 } from "@/app/lib/actions";
 import {
   ValidatorHistoryTableColumns,
@@ -25,10 +25,10 @@ const ValidatorHistoryPage = async () => {
   const validationStage = await getValidationStageByValidatorId(validator!.id);
   const validationStageCount = await countAllValidationStage();
   let data;
-  if (validationStageCount > validationStage!.title) {
+  if (validationStageCount > validator!.validationStage!.title) {
     data = await getAllValidationSuratByStageTitle(validationStage!.title + 1);
   } else {
-    data = await getAllValidationSuratByStageId(validationStage!.id);
+    data = await getAllConfirmedSurat();
   }
   return (
     <>

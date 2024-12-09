@@ -21,7 +21,7 @@ export interface UserModel {
 export interface ValidationStageModel {
   id: string;
   title: number;
-  validator: UserModel;
+  validator: User;
   surat: Surat[];
 }
 
@@ -31,11 +31,18 @@ export interface SuratModel {
   author: User;
   receiver: string;
   file: string;
-  validationStage: ValidationStage | null;
+  validationStage: ValidationStageModel | null;
   validationStatus: boolean;
-  notes: SuratNote[] | null;
+  notes: SuratNoteModel[] | null;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface SuratNoteModel {
+  id: number;
+  message: string;
+  surat: Surat;
+  author: User;
 }
 
 export interface RequestedSuratTableModel {

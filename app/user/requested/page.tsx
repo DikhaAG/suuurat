@@ -4,7 +4,7 @@ import RequestedTable from "@/components/user/requested/RequestedTable";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Surat - Menunggu Persetujuan",
+  title: "Surat - Menunggu Validasi",
 };
 const UserRequestedPage = async () => {
   const session = await auth();

@@ -15,8 +15,8 @@ import {
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Separator } from "@/components/ui/separator";
-import { ValidationStageModel } from "@/app/lib/models";
-import { Surat } from "@prisma/client";
+import { SuratModel, ValidationStageModel } from "@/app/lib/models";
+import NotesViewDialog from "./notes-view-dialog";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -34,7 +34,7 @@ export const AdminRequestedColumnHeader: { [key: string]: string } = {
   actions: "opsi",
 };
 
-export const AdminRequestedColumns: ColumnDef<Surat>[] = [
+export const AdminRequestedColumns: ColumnDef<SuratModel>[] = [
   {
     accessorKey: "subject",
     header: ({ column }) => {
@@ -151,6 +151,9 @@ export const AdminRequestedColumns: ColumnDef<Surat>[] = [
               >
                 Lihat berkas
               </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <NotesViewDialog notes={confirmedSurat.notes} />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

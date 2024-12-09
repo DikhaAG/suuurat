@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Surat } from "@prisma/client";
+import NotesViewDialog from "./notes-view-dialog";
+import { SuratModel } from "@/app/lib/models";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -31,7 +32,7 @@ export const ValidatorHistoryTableColumnHeader: { [key: string]: string } = {
   actions: "opsi",
 };
 
-export const ValidatorHistoryTableColumns: ColumnDef<Surat>[] = [
+export const ValidatorHistoryTableColumns: ColumnDef<SuratModel>[] = [
   {
     accessorKey: "subject",
     header: ({ column }) => {
@@ -128,6 +129,9 @@ export const ValidatorHistoryTableColumns: ColumnDef<Surat>[] = [
               >
                 Lihat berkas
               </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <NotesViewDialog notes={confirmedSurat.notes} />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
