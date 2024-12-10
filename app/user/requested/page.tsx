@@ -4,15 +4,17 @@ import RequestedTable from "@/components/user/requested/RequestedTable";
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Surat - Menunggu Persetujuan",
+  title: "Surat - Menunggu Validasi",
 };
-const UserRequestedPage = async() => {
-  const session = await auth()
-  const user = await getUserByName(session?.user?.name)
+const UserRequestedPage = async () => {
+  const session = await auth();
+  const user = await getUserByName(session?.user?.name);
   if (!user) {
-    return redirect("/")
-  }else if(user.isAdmin) {
-    return redirect("/admin")
+    return redirect("/");
+  } else if (user.role === "ADMIN") {
+    return redirect("/admin");
+  } else if (user.role === "VALIDATOR") {
+    return redirect("/validator");
   }
   return (
     <div className="flex flex-col justify-between text-neutral-700 h-full">
