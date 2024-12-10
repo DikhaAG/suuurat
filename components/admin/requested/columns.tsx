@@ -104,7 +104,7 @@ export const AdminRequestedColumns: ColumnDef<SuratModel>[] = [
     cell: ({ row }) => {
       const validatorName = (
         row.getValue("validationStage") as ValidationStageModel
-      ).validator.name;
+      ).validator!.name;
       return validatorName;
     },
   },

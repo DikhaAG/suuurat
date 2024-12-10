@@ -1,15 +1,16 @@
+import { UserModel } from "@/app/lib/models";
+
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import SidebarContentAdmin from "./SidebarContentAdmin";
-import SidebarContentUser from "./SidebarContentUser";
-import SidebarHeaderContent from "./SidebarHeaderContent";
-import SidebarContentValidator from "./SidebarContentValidator";
-import { UserModel } from "@/app/lib/models";
-import SidebarFooterContent from "./SidebarFooterContent";
+import SidebarContentAdmin from "@/components/sidebar/admin/SidebarContentAdmin";
+import SidebarContentUser from "@/components/sidebar/user/SidebarContentUser";
+import SidebarHeaderContent from "@/components/sidebar/SidebarHeaderContent";
+import SidebarContentValidator from "@/components/sidebar/validator/SidebarContentValidator";
+import SidebarFooterContent from "@/components/sidebar/SidebarFooterContent";
 
 export function AppSidebar({ userData }: { userData: UserModel | null }) {
   return (

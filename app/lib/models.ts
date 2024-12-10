@@ -21,7 +21,7 @@ export interface UserModel {
 export interface ValidationStageModel {
   id: string;
   title: number;
-  validator: User;
+  validator: User | null;
   surat: Surat[];
 }
 

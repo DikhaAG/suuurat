@@ -118,7 +118,7 @@ export default function ValidateDialog({ surat }: { surat: SuratModel }) {
             <FormField
               control={form.control}
               name="validatorId"
-              defaultValue={surat.validationStage?.validator.id}
+              defaultValue={surat.validationStage?.validator?.id}
               render={({ field }) => (
                 <FormItem hidden>
                   <FormControl>
