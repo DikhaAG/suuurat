@@ -1,7 +1,7 @@
-import CreateForm from "@/components/user/CreateForm";
 import { auth } from "@/auth";
 import { getUserByName } from "../lib/actions";
 import { redirect } from "next/navigation";
+import CreateSuratForm from "@/components/user/create-surat-form";
 
 export const metadata = {
   title: "Surat - Buat Baru",
@@ -19,12 +19,14 @@ const UserHomePage = async () => {
   }
 
   return (
-    <div className="flex flex-col justify-between text-neutral-700 h-full">
-      <div className="flex flex-col gap-3 h-full">
+    <>
+      <div className="flex flex-col gap-3">
         <div className="text-4xl font-semibold mb-10">Buat Surat Baru</div>
-        <CreateForm authorId={user.id} />
+        <div className="container">
+          <CreateSuratForm userData={user} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

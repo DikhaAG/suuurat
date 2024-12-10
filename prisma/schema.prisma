@@ -60,7 +60,7 @@ model User {
 model ValidationStage {
   id          String  @id @default(uuid())
   title       Int     @unique
-  validator   User    @relation("validationStage", fields: [validatorId], references: [id])
+  validator   User    @relation("validationStage", fields: [validatorId], references: [id], onDelete: Cascade)
   validatorId String  @unique
   surat       Surat[]
 }
@@ -68,7 +68,7 @@ model ValidationStage {
 model Surat {
   id                String           @id @default(uuid())
   subject           String
-  author            User             @relation("author", fields: [authorId], references: [id])
+  author            User             @relation("author", fields: [authorId], references: [id], onDelete: Cascade)
   authorId          String
   receiver          String
   file              String
@@ -86,8 +86,8 @@ model Surat {
 model SuratNote {
   id       Int    @id @default(autoincrement())
   message  String @db.Text
-  surat    Surat  @relation("suratNote", fields: [suratId], references: [id])
+  surat    Surat  @relation("suratNote", fields: [suratId], references: [id], onDelete: Cascade)
   suratId  String
-  author   User   @relation("suratNoteAuthor", fields: [authorId], references: [id])
+  author   User   @relation("suratNoteAuthor", fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 }

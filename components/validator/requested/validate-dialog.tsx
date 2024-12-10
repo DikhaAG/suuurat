@@ -156,7 +156,6 @@ export default function ValidateDialog({ surat }: { surat: SuratModel }) {
                 )}
               />
             )}
-
             <DialogFooter>
               <Button disabled={form.formState.isSubmitting} type="submit">
                 Validasi
