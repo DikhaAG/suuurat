@@ -9,64 +9,117 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
+enum Role {
+  USER
+  ADMIN
+  VALIDATOR
+}
+
+enum SuratHistoryAction {
+  CREATE
+  UPDATE
+  DELETE
+  VALIDATE
+}
+
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
- 
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@unique([provider, providerAccountId])
   @@map("accounts")
 }
 
 model User {
-  id String @id @default(uuid())
-  name String @unique
-  password String
-  isAdmin Boolean @default(false)
-  surat Surat[] @relation("author")
-  accounts Account[]
-  
+  id              String           @id @default(uuid())
+  name            String           @unique
+  password        String
+  isAdmin         Boolean          @default(false)
+  role            Role             @default(USER)
+  surats          Surat[]          @relation("author")
+  accounts        Account[]
+  validationStage ValidationStage? @relation("validationStage")
+  suratNotes      SuratNote[]      @relation("suratNoteAuthor")
+  suratHistories  SuratHistory[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
   @@map("users")
 }
 
-// model File {
-//   id String @id @default(uuid())
-//   name String
-//   surat Surat @relation("surat", fields: [suratId], references: [id])
-//   suratId String @unique
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
-
-model Surat {
-  id String @id @default(uuid())
-  subject String
-  author User @relation("author", fields: [authorId], references: [id])
-  authorId String
-  receiver String
-  file String
-  status Boolean @default(false)
-  noted String?
+model ValidationStage {
+  id          String  @id @default(uuid())
+  title       Int     @unique
+  validator   User?   @relation("validationStage", fields: [validatorId], references: [id], onDelete: Cascade)
+  validatorId String? @unique
+  surat       Surat[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Surat {
+  id                String          @id @default(uuid())
+  subject           String
+  author            User            @relation("author", fields: [authorId], references: [id], onDelete: Cascade)
+  authorId          String
+  receiver          String
+  file              String
+  status            Boolean         @default(false)
+  noted             String?
+  validationStage   ValidationStage @relation(fields: [validationStageId], references: [id])
+  validationStageId String
+  validationStatus  Boolean         @default(false)
+  notes             SuratNote[]     @relation("suratNote")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SuratNote {
+  id       Int    @id @default(autoincrement())
+  message  String @db.Text
+  surat    Surat  @relation("suratNote", fields: [suratId], references: [id], onDelete: Cascade)
+  suratId  String
+  author   User   @relation("suratNoteAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SuratHistory {
+  id     String             @id @default(uuid())
+  action SuratHistoryAction
+  userId String
+  user   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SystemSetting {
+  id     String  @id @default(uuid())
+  name   String
+  status Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("systemSettings")
 }

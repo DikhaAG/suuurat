@@ -1,6 +1,6 @@
 import { SuratModel } from "@/app/lib/models";
 import Link from "next/link";
-import HistoryButtonNoteButton from "./HistoryTableNoteButton";
+// import HistoryButtonNoteButton from "./HistoryTableNoteButton";
 
 interface HistoryTableFormInterface {
   surat: SuratModel;
@@ -28,11 +28,11 @@ const HistoryTableForm = ({ surat }: HistoryTableFormInterface) => {
       </td>
       <td className="px-6 py-4">{surat.createdAt.toString().slice(0, 25)}</td>
       <td className="px-6 py-4">
-        {surat.noted !== "" ? (
-          <HistoryButtonNoteButton note={surat.noted} />
-        ) : (
-          ""
-        )}
+        {/* {surat.noted !== "" ? ( */}
+        {/*   <HistoryButtonNoteButton note={surat.noted} /> */}
+        {/* ) : ( */}
+        {/*   "" */}
+        {/* )} */}
       </td>
     </tr>
   );
