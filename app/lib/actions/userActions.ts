@@ -19,9 +19,17 @@ export const createUser = async ({
         role: "USER",
       },
     });
+
+    return JSON.stringify({
+      status: true,
+      message: "Ok",
+    });
   } catch (error) {
     console.log(error);
-    return false;
+    return JSON.stringify({
+      status: false,
+      message: error,
+    });
   }
 };
 

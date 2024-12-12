@@ -57,11 +57,17 @@ export default function RegisterForm() {
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
     try {
-      const res = await createUser(values);
-      if (!res) {
+      const resJSON = await createUser(values);
+      const res = JSON.parse(resJSON);
+      if (res.status) {
         toast({
           title: "Berhasil mendaftarkan akun!",
           description: "Silahkan login.",
+        });
+      } else {
+        toast({
+          title: "Nama sudah digunakan di akun lain!",
+          description: "Silahkan gunakan nama yang berbeda.",
         });
       }
     } catch (error) {
