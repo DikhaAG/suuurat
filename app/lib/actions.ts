@@ -7,6 +7,54 @@ import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 
+export const createUserAdmin = async ({
+  name,
+  password,
+}: {
+  name: string;
+  password: string;
+}) => {
+  try {
+    await prisma.user.create({
+      data: {
+        name,
+        password,
+        role: "ADMIN",
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const deleteUserAdminById = async (id: string) => {
+  try {
+    await prisma.user.delete({
+      where: {
+        role: "ADMIN",
+        id,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const getAllAdmin = async (exeptionName: string) => {
+  const res = await prisma.user.findMany({
+    where: {
+      role: "ADMIN",
+      NOT: {
+        name: exeptionName,
+      },
+    },
+  });
+
+  return res;
+};
+
 export const getUserByName = async (name: string | null | undefined) => {
   if (name) {
     const res = await prisma.user.findUnique({

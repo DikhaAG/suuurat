@@ -6,6 +6,25 @@ import {
   $Enums,
 } from "@prisma/client";
 
+export interface UserAdminModel {
+  id: string;
+  name: string;
+  password: string;
+  role: $Enums.Role;
+  updatedAt: Date;
+  createdAt: Date;
+}
+
+export interface UserValidatorModel {
+  id: string;
+  name: string;
+  password: string;
+  role: $Enums.Role;
+  validationStage: ValidationStage | null;
+  updatedAt: Date;
+  createdAt: Date;
+}
+
 export interface UserModel {
   id: string;
   name: string;

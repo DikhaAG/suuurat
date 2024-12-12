@@ -3,7 +3,7 @@ import {
   AdminHistoryColumns,
   AdminHistoryColumnHeader,
 } from "@/components/admin/history/columns";
-import { AdminHistoryDataTable } from "@/components/admin/history/data-table";
+import { DataTable } from "@/components/data-table";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,7 @@ const AdminHistoryPage = async () => {
 
         <div className="text-4xl font-semibold mb-10">Riwayat Surat</div>
         <div className="container">
-          <AdminHistoryDataTable
+          <DataTable
             columns={AdminHistoryColumns}
             columnHeader={AdminHistoryColumnHeader}
             data={data}

@@ -1,4 +1,4 @@
-import { ChevronDown, Mail, ShieldCheck, User } from "lucide-react";
+import { ChevronDown, ShieldCheck, User } from "lucide-react";
 
 import {
   SidebarGroup,
@@ -20,14 +20,6 @@ export default function SidebarContentDataAdmin() {
     <SidebarGroup>
       <SidebarGroupLabel>Data</SidebarGroupLabel>
       <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton asChild>
-            <Link href={"/admin/data/surat"}>
-              <Mail />
-              <span>Surat</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
         <SidebarMenuItem>
           <SidebarMenuButton asChild>
             <Link href={"/admin/data/validation-stage"}>

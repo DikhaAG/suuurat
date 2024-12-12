@@ -10,7 +10,7 @@ import {
   ValidatorHistoryTableColumns,
   ValidatorHistoryTableColumnHeader,
 } from "@/components/validator/history/columns";
-import { ValidatorHistoryDataTable } from "@/components/validator/history/data-table";
+import { DataTable } from "@/components/data-table";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -42,7 +42,7 @@ const ValidatorHistoryPage = async () => {
 
         <div className="text-4xl font-semibold mb-10">Riwayat Surat</div>
         <div className="container">
-          <ValidatorHistoryDataTable
+          <DataTable
             columns={ValidatorHistoryTableColumns}
             columnHeader={ValidatorHistoryTableColumnHeader}
             data={data}

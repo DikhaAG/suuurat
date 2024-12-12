@@ -10,9 +10,9 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 
 export const metadata = {
-  title: "Admin - Menunggu Validasi",
+  title: "Admin - Data Validator",
 };
-const AdminRequestedPage = async () => {
+const DataValidatorPage = async () => {
   const data = await getAllRequestedSurat();
   return (
     <>
@@ -24,7 +24,7 @@ const AdminRequestedPage = async () => {
           </Link>
         </Button>
 
-        <div className="text-4xl font-semibold mb-10">Menunggu Validasi</div>
+        <div className="text-4xl font-semibold mb-10">Data Validator</div>
         <div className="container">
           <DataTable
             columns={AdminRequestedColumns}
@@ -37,4 +37,4 @@ const AdminRequestedPage = async () => {
   );
 };
 
-export default AdminRequestedPage;
+export default DataValidatorPage;

@@ -8,7 +8,7 @@ import {
   ValidatorRequestedTableColumns,
   ValidatorRequestedTableColumnHeader,
 } from "@/components/validator/requested/columns";
-import { ValidatorRequestedDataTable } from "@/components/validator/requested/data-table";
+import { DataTable } from "@/components/data-table";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -34,7 +34,7 @@ const ValidatorRequestedPage = async () => {
 
         <div className="text-4xl font-semibold mb-10">Surat Masuk</div>
         <div className="container">
-          <ValidatorRequestedDataTable
+          <DataTable
             columns={ValidatorRequestedTableColumns}
             columnHeader={ValidatorRequestedTableColumnHeader}
             data={data}

@@ -4,6 +4,7 @@ import { MoreHorizontal } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
 
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,7 +16,8 @@ import {
 
 import { ColumnDef } from "@tanstack/react-table";
 import { SuratModel } from "@/app/lib/models";
-import NotesViewDialog from "./notes-view-dialog";
+import NotesViewDialog from "@/components/admin/history/notes-view-dialog";
+import AdminHistoryDeleteAlertDialog from "@/components/admin/history/delete-alert-dialog";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -33,6 +35,28 @@ export const AdminHistoryColumnHeader: { [key: string]: string } = {
 };
 
 export const AdminHistoryColumns: ColumnDef<SuratModel>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: "subject",
     header: ({ column }) => {
@@ -110,7 +134,7 @@ export const AdminHistoryColumns: ColumnDef<SuratModel>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const confirmedSurat = row.original;
+      const surat = row.original;
 
       return (
         <DropdownMenu>
@@ -124,14 +148,17 @@ export const AdminHistoryColumns: ColumnDef<SuratModel>[] = [
             <DropdownMenuLabel>Opsi</DropdownMenuLabel>
             <DropdownMenuItem>
               <Link
-                href={`/admin/history/viewer/${confirmedSurat.id}`}
+                href={`/admin/history/viewer/${surat.id}`}
                 className=" hover:cursor-pointer"
               >
                 Tampilkan berkas
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <NotesViewDialog notes={confirmedSurat.notes} />
+              <NotesViewDialog notes={surat.notes} />
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <AdminHistoryDeleteAlertDialog surat={surat} />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

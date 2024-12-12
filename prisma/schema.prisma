@@ -20,6 +20,13 @@ enum Role {
   VALIDATOR
 }
 
+enum SuratHistoryAction {
+  CREATE
+  UPDATE
+  DELETE
+  VALIDATE
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String  @map("user_id")
@@ -50,6 +57,7 @@ model User {
   accounts        Account[]
   validationStage ValidationStage? @relation("validationStage")
   suratNotes      SuratNote[]      @relation("suratNoteAuthor")
+  suratHistories  SuratHistory[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -63,21 +71,24 @@ model ValidationStage {
   validator   User?   @relation("validationStage", fields: [validatorId], references: [id], onDelete: Cascade)
   validatorId String? @unique
   surat       Surat[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Surat {
-  id                String           @id @default(uuid())
+  id                String          @id @default(uuid())
   subject           String
-  author            User             @relation("author", fields: [authorId], references: [id], onDelete: Cascade)
+  author            User            @relation("author", fields: [authorId], references: [id], onDelete: Cascade)
   authorId          String
   receiver          String
   file              String
-  status            Boolean          @default(false)
+  status            Boolean         @default(false)
   noted             String?
-  validationStage   ValidationStage? @relation(fields: [validationStageId], references: [id])
-  validationStageId String?
-  validationStatus  Boolean          @default(false)
-  notes             SuratNote[]      @relation("suratNote")
+  validationStage   ValidationStage @relation(fields: [validationStageId], references: [id])
+  validationStageId String
+  validationStatus  Boolean         @default(false)
+  notes             SuratNote[]     @relation("suratNote")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -90,4 +101,25 @@ model SuratNote {
   suratId  String
   author   User   @relation("suratNoteAuthor", fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SuratHistory {
+  id     String             @id @default(uuid())
+  action SuratHistoryAction
+  userId String
+  user   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SystemSetting {
+  id     String  @id @default(uuid())
+  name   String
+  status Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("systemSettings")
 }
