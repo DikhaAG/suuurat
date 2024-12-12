@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { getUserByName } from "@/app/lib/actions";
+import { getUserByName } from "@/app/lib/actions/userActions";
 import { redirect } from "next/navigation";
 import SidebarLayoutProvider from "@/components/sidebar/SidebarLayoutProvider";
 

@@ -1,27 +1,28 @@
-import { getUserByName } from "@/app/lib/actions";
+import { getConfirmedSuratByAuthorName } from "@/app/lib/actions/surat/suratReadActions";
 import { auth } from "@/auth";
-import HistoryTable from "@/components/user/history/HistoryTable";
-import { redirect } from "next/navigation";
+import { DataTable } from "@/components/data-table";
+import {
+  UserHistoryTableColumns,
+  UserHistoryTableColumnHeader,
+} from "@/components/user/history/columns";
 
 export const metadata = {
   title: "Surat - Riwayat",
 };
 const UserHistoryPage = async () => {
   const session = await auth();
-  const user = await getUserByName(session?.user?.name);
-  if (!user) {
-    return redirect("/");
-  } else if (user.role === "ADMIN") {
-    return redirect("/admin");
-  } else if (user.role === "VALIDATOR") {
-    return redirect("/validator");
-  }
+  const surat = await getConfirmedSuratByAuthorName(session!.user!.name!);
+
   return (
     <div className="flex flex-col justify-between text-neutral-700 h-full">
       <div className="flex flex-col gap-3 h-full">
         <div className="text-4xl font-semibold mb-10">Riwayat Surat</div>
         <div className="h-full">
-          <HistoryTable user={user} />
+          <DataTable
+            data={surat}
+            columnHeader={UserHistoryTableColumnHeader}
+            columns={UserHistoryTableColumns}
+          />
         </div>
       </div>
     </div>

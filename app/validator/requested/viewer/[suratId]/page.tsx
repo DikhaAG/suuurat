@@ -1,5 +1,5 @@
 "use client";
-import { getSuratById } from "@/app/lib/actions";
+import { getSuratById } from "@/app/lib/actions/surat/suratReadActions";
 import { Surat } from "@prisma/client";
 import FileViewerReactPdf from "@/components/utils/FileViewerReactPdf";
 import Link from "next/link";

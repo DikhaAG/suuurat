@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { useFormState } from "react-dom";
-import { signInCredentials } from "@/app/lib/actions";
+import { signInCredentials } from "@/app/lib/actions/authActions";
 
 export function LoginForm() {
   const [state, formAction] = useFormState(signInCredentials, null);

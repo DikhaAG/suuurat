@@ -1,4 +1,4 @@
-import { getAllConfirmedSurat } from "@/app/lib/actions";
+import { getAllConfirmedSurat } from "@/app/lib/actions/surat/suratReadActions";
 import {
   AdminHistoryColumns,
   AdminHistoryColumnHeader,

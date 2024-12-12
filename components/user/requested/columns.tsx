@@ -1,49 +1,69 @@
 "use client";
 
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table";
-import { ValidationStageModel } from "@/app/lib/models";
-import { Separator } from "@/components/ui/separator";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import DataValidationStageDeleteAlertDialog from "@/components/admin/data/validationStage/delete-alert-dialog";
-import { User } from "@prisma/client";
 
-export const DataValidationStageColumnHeader: { [key: string]: string } = {
-  title: "tahap",
-  validator: "validator",
+import { ColumnDef } from "@tanstack/react-table";
+import NotesViewDialog from "./notes-view-dialog";
+import { SuratModel, ValidationStageModel } from "@/app/lib/models";
+
+export const UserRequestedTableColumnHeader: { [key: string]: string } = {
+  subject: "subjek",
+  receiver: "penerima",
+  validationStage: "tahap validasi",
   createdAt: "dibuat",
   actions: "opsi",
 };
 
-export const DataValidationStageColumns: ColumnDef<ValidationStageModel>[] = [
+export const UserRequestedTableColumns: ColumnDef<SuratModel>[] = [
   {
-    accessorKey: "title",
+    accessorKey: "subject",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Tahap
+          Subjek
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const title = row.getValue("title");
-      return title;
+      const subjek = row.getValue("subject");
+      return subjek;
     },
   },
   {
-    accessorKey: "validator",
+    accessorKey: "receiver",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Penerima
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const penerima = row.getValue("receiver");
+      return penerima;
+    },
+  },
+  {
+    accessorKey: "validationStage",
     header: ({ column }) => {
       return (
         <Button
@@ -56,8 +76,9 @@ export const DataValidationStageColumns: ColumnDef<ValidationStageModel>[] = [
       );
     },
     cell: ({ row }) => {
-      const validatorName = (row.getValue("validator") as User).name;
-      return validatorName;
+      const penerima = (row.getValue("validationStage") as ValidationStageModel)
+        .validator!.name;
+      return penerima;
     },
   },
   {
@@ -83,7 +104,7 @@ export const DataValidationStageColumns: ColumnDef<ValidationStageModel>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const validationStageData = row.original;
+      const confirmedSurat = row.original;
 
       return (
         <DropdownMenu>
@@ -95,12 +116,18 @@ export const DataValidationStageColumns: ColumnDef<ValidationStageModel>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Opsi</DropdownMenuLabel>
-            <Separator />
-            <DropdownMenuItem asChild>
-              <DataValidationStageDeleteAlertDialog
-                validationStageData={validationStageData}
-              />
+            <DropdownMenuItem>
+              <Link
+                href={`/user/history/viewer/${confirmedSurat.id}`}
+                className=" hover:cursor-pointer"
+              >
+                Lihat berkas
+              </Link>
             </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <NotesViewDialog notes={confirmedSurat.notes} />
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useFormState } from "react-dom";
-import { kirim } from "@/app/lib/actions";
+import { kirim } from "@/app/lib/actions/surat/suratCreateActions";
 import { UserModel } from "@/app/lib/models";
 
 import {

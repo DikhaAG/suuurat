@@ -1,4 +1,4 @@
-import { getAllAdmin } from "@/app/lib/actions";
+import { getAllAdmin } from "@/app/lib/actions/userAdminActions";
 
 import Link from "next/link";
 

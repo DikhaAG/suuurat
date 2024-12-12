@@ -1,4 +1,4 @@
-import { getAllRequestedSurat } from "@/app/lib/actions";
+import { getAllRequestedSurat } from "@/app/lib/actions/surat/suratReadActions";
 import {
   AdminRequestedColumns,
   AdminRequestedColumnHeader,

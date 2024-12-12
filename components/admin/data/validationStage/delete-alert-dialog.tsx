@@ -1,5 +1,6 @@
 import { MouseEvent } from "react";
-import { UserAdminModel } from "@/app/lib/models";
+import { ValidationStageModel } from "@/app/lib/models";
+import { deleteValidationStageById } from "@/app/lib/actions/validationStageActions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,13 +15,12 @@ import {
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
-import { deleteUserAdminById } from "@/app/lib/actions";
 import { useToast } from "@/hooks/use-toast";
 
-export default function DataAdminDeleteAlertDialog({
-  userAdminData,
+export default function DataValidationStageDeleteAlertDialog({
+  validationStageData,
 }: {
-  userAdminData: UserAdminModel;
+  validationStageData: ValidationStageModel;
 }) {
   const [pending, setPending] = useState(false);
   const { toast } = useToast();
@@ -30,13 +30,13 @@ export default function DataAdminDeleteAlertDialog({
 
     setPending(true);
     try {
-      await deleteUserAdminById(id);
+      await deleteValidationStageById(id);
       window.location.reload();
     } catch (error) {
       console.log(error);
       setPending(false);
       toast({
-        title: "Gagal menghapus admin!",
+        title: "Gagal menghapus tahap validasi!",
         description: "Ada masalah pada server, coba lagi",
       });
     }
@@ -55,7 +55,7 @@ export default function DataAdminDeleteAlertDialog({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Apakah anda yakin mengapus {userAdminData.name} ?
+            Apakah anda yakin mengapus tahap {validationStageData.title} ?
           </AlertDialogTitle>
           <AlertDialogDescription>
             Ini akan mengapus akun secara permanen dan menghapus data dari
@@ -66,7 +66,7 @@ export default function DataAdminDeleteAlertDialog({
           <AlertDialogCancel disabled={pending}>Batal</AlertDialogCancel>
           <AlertDialogAction
             disabled={pending}
-            onClick={(e) => onSubmit(e, userAdminData.id)}
+            onClick={(e) => onSubmit(e, validationStageData.id)}
           >
             Hapus
           </AlertDialogAction>

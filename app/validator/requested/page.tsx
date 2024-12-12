@@ -1,9 +1,8 @@
 import { auth } from "@/auth";
-import {
-  getUserByName,
-  getValidationStageByValidatorId,
-  getAllValidationSuratByStageId,
-} from "@/app/lib/actions";
+import { getUserByName } from "@/app/lib/actions/userActions";
+import { getValidationStageByValidatorId } from "@/app/lib/actions/validationStageActions";
+import { getAllValidationSuratByStageId } from "@/app/lib/actions/surat/suratReadActions";
+
 import {
   ValidatorRequestedTableColumns,
   ValidatorRequestedTableColumnHeader,

@@ -1,5 +1,6 @@
+"use client";
 import { MouseEvent } from "react";
-import { SuratModel } from "@/app/lib/models";
+import { fixValidationStage } from "@/app/lib/actions/systemActions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,17 +12,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
-import { deleteSuratById } from "@/app/lib/actions/surat/suratDeleteActions";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
 
-export default function AdminHistoryDeleteAlertDialog({
-  surat,
-}: {
-  surat: SuratModel;
-}) {
+export default function DataValidationStageFixedDialog() {
   const [pending, setPending] = useState(false);
   const { toast } = useToast();
 
@@ -30,13 +26,13 @@ export default function AdminHistoryDeleteAlertDialog({
 
     setPending(true);
     try {
-      await deleteSuratById(surat.id);
+      await fixValidationStage();
       window.location.reload();
     } catch (error) {
       console.log(error);
       setPending(false);
       toast({
-        title: "Gagal menghapus surat!",
+        title: "Gagal menghapus tahap validasi!",
         description: "Ada masalah pada server, coba lagi",
       });
     }
@@ -44,28 +40,25 @@ export default function AdminHistoryDeleteAlertDialog({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <DropdownMenuItem
-          onSelect={(e) => e.preventDefault()}
-          className="cursor-pointer text-red-500 focus:text-red-600 "
-        >
+        <Button variant={"ghost"}>
           <Trash2 />
-          Hapus
-        </DropdownMenuItem>
+          Fix Data
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Apakah anda yakin mengapus &quot;{surat.subject}&quot; ?
+            Apakah anda yakin untuk fix tahap validasi?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Ini akan mengapus akun secara permanen dan menghapus data dari
-            server.
+            Ini akan membuat anda tidak dapat lagi mengubah data pada tahapan
+            validasi.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={pending}>Batal</AlertDialogCancel>
           <AlertDialogAction disabled={pending} onClick={(e) => onSubmit(e)}>
-            Hapus
+            Fix
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

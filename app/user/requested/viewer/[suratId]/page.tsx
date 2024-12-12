@@ -1,5 +1,5 @@
 "use client";
-import { getSuratById } from "@/app/lib/actions";
+import { getSuratById } from "@/app/lib/actions/surat/suratReadActions";
 import FileViewerReactPdf from "@/components/utils/FileViewerReactPdf";
 import Link from "next/link";
 import { useParams } from "next/navigation";

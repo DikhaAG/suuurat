@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { countAllRequestedSurat } from "@/app/lib/actions";
+import { countAllRequestedSurat } from "@/app/lib/actions/surat/suratReadActions";
 
 import { type LucideIcon } from "lucide-react";
 

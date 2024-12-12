@@ -11,7 +11,7 @@ import {
   SidebarMenuItem,
   SidebarMenuBadge,
 } from "@/components/ui/sidebar";
-import { countAllValidationSurat } from "@/app/lib/actions";
+import { countAllValidationSurat } from "@/app/lib/actions/surat/suratReadActions";
 import { UserModel } from "@/app/lib/models";
 
 const items = [

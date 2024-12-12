@@ -1,19 +1,26 @@
-import { getAllRequestedSurat } from "@/app/lib/actions";
+import { getAllValidationStage } from "@/app/lib/actions/validationStageActions";
 import {
-  AdminRequestedColumns,
-  AdminRequestedColumnHeader,
-} from "@/components/admin/requested/columns";
+  DataValidationStageColumns,
+  DataValidationStageColumnHeader,
+} from "@/components/admin/data/validationStage/columns";
 import { DataTable } from "@/components/data-table";
+import DataValidationStageAdd from "@/components/admin/data/validationStage/add-dialog";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
+import DataValidationStageFixedDialog from "@/components/admin/data/validationStage/fixed-dialog";
+import { Separator } from "@/components/ui/separator";
+import { getSystemSettingByName } from "@/app/lib/actions/systemActions";
 
 export const metadata = {
   title: "Admin - Tahap Validasi",
 };
 const DataValidationStagePage = async () => {
-  const data = await getAllRequestedSurat();
+  const data = await getAllValidationStage();
+  const validationStageFixed = await getSystemSettingByName(
+    "validationStageFixed",
+  );
   return (
     <>
       <div className="flex flex-col gap-3">
@@ -26,9 +33,18 @@ const DataValidationStagePage = async () => {
 
         <div className="text-4xl font-semibold mb-10">Tahap Validasi</div>
         <div className="container">
+          <div className="container flex flex-col w-fit">
+            {!validationStageFixed?.status && (
+              <>
+                <DataValidationStageFixedDialog />
+                <Separator className="my-2" />
+                <DataValidationStageAdd />
+              </>
+            )}
+          </div>
           <DataTable
-            columns={AdminRequestedColumns}
-            columnHeader={AdminRequestedColumnHeader}
+            columns={DataValidationStageColumns}
+            columnHeader={DataValidationStageColumnHeader}
             data={data}
           />
         </div>

@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { getUserByName } from "@/app/lib/actions";
+import { getUserByName } from "@/app/lib/actions/userActions";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";

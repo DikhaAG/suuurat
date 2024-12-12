@@ -1,11 +1,15 @@
 import { auth } from "@/auth";
+
+import { getUserByName } from "@/app/lib/actions/userActions";
 import {
-  getUserByName,
-  getValidationStageByValidatorId,
-  getAllValidationSuratByStageTitle,
-  countAllValidationStage,
   getAllConfirmedSurat,
-} from "@/app/lib/actions";
+  getAllValidationSuratByStageTitle,
+} from "@/app/lib/actions/surat/suratReadActions";
+import {
+  getValidationStageByValidatorId,
+  countAllValidationStage,
+} from "@/app/lib/actions/validationStageActions";
+
 import {
   ValidatorHistoryTableColumns,
   ValidatorHistoryTableColumnHeader,

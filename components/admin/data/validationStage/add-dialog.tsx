@@ -23,7 +23,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createUserAdmin } from "@/app/lib/actions";
+import { createUserAdmin } from "@/app/lib/actions/userAdminActions";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z

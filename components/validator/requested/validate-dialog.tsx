@@ -30,7 +30,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { SuratModel } from "@/app/lib/models";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
-import { validateSurat } from "@/app/lib/actions";
+import { validateSurat } from "@/app/lib/actions/surat/suratUpdateActions";
 
 const formSchema = z.object({
   suratId: z.string(),

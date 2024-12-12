@@ -14,7 +14,7 @@ import {
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
-import { deleteUserAdminById } from "@/app/lib/actions";
+import { deleteUserAdminById } from "@/app/lib/actions/userAdminActions";
 import { useToast } from "@/hooks/use-toast";
 
 export default function DataAdminDeleteAlertDialog({
