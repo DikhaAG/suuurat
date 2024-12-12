@@ -19,7 +19,7 @@ const AdminHistoryViewerPage = () => {
     <div className="flex flex-col gap-3">
       <div className="flex flex-row w-full">
         <Button asChild variant={"ghost"} className="w-fit">
-          <Link href="/admin/requested">
+          <Link href="/admin/history">
             <ChevronLeft />
             Kembali
           </Link>

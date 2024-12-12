@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 
 export const metadata = {
-  title: "Admin - Riwayat",
+  title: "Validator - Riwayat",
 };
 const ValidatorHistoryPage = async () => {
   const session = await auth();

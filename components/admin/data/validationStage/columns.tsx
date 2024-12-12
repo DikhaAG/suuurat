@@ -56,7 +56,7 @@ export const DataValidationStageColumns: ColumnDef<ValidationStageModel>[] = [
       );
     },
     cell: ({ row }) => {
-      const validatorName = (row.getValue("validator") as User).name;
+      const validatorName = (row.getValue("validator") as User)?.name;
       return validatorName;
     },
   },

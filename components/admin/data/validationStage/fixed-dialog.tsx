@@ -12,7 +12,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -32,7 +31,7 @@ export default function DataValidationStageFixedDialog() {
       console.log(error);
       setPending(false);
       toast({
-        title: "Gagal menghapus tahap validasi!",
+        title: "Gagal menetapkan tahap validasi!",
         description: "Ada masalah pada server, coba lagi",
       });
     }
@@ -40,10 +39,7 @@ export default function DataValidationStageFixedDialog() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant={"ghost"}>
-          <Trash2 />
-          Fix Data
-        </Button>
+        <Button variant={"default"}>Fix Data</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

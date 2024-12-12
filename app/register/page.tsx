@@ -6,7 +6,7 @@ import { ThemeToggle } from "@/components/utils/theme-toggle";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Surat - Sign in",
+  title: "Surat - Daftar",
 };
 
 export default async function RegisterPage() {

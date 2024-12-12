@@ -3,7 +3,7 @@ import {
   DataValidationStageColumns,
   DataValidationStageColumnHeader,
 } from "@/components/admin/data/validationStage/columns";
-import { DataTable } from "@/components/data-table";
+import { DataTable } from "@/components/admin/data/validationStage/data-table";
 import DataValidationStageAdd from "@/components/admin/data/validationStage/add-dialog";
 import Link from "next/link";
 

@@ -1,6 +1,18 @@
 "use server";
 import { prisma } from "@/app/lib/prisma";
 
+export const createValidationStage = async () => {
+  const validationStageCount = await countAllValidationStage();
+  const title = validationStageCount + 1;
+  const res = await prisma.validationStage.create({
+    data: {
+      title,
+    },
+  });
+
+  return res;
+};
+
 export const countAllValidationStage = async () => {
   const res = await prisma.validationStage.count();
   return res;
