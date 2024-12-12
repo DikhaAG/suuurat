@@ -2,6 +2,7 @@ import { prisma } from "@/app/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { createSuratHistory } from "@/app/lib/actions/suratHistoryActions";
 import { countAllValidationStage } from "@/app/lib/actions/validationStageActions";
 import { getValidationStageByTitle } from "@/app/lib/actions/validationStageActions";
 
@@ -28,6 +29,8 @@ export const validateSurat = async (
             validationStageId: nextStage!.id,
           },
         });
+
+        await createSuratHistory(suratId, validatorId, "VALIDATE");
 
         if (note !== "") {
           try {
@@ -62,6 +65,8 @@ export const validateSurat = async (
             validationStatus: true,
           },
         });
+
+        await createSuratHistory(suratId, validatorId, "VALIDATE");
 
         if (note !== "") {
           try {

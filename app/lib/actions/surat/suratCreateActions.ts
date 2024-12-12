@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { put } from "@vercel/blob";
 import { suratSchema } from "@/app/lib/zod";
+import { createSuratHistory } from "@/app/lib/actions/suratHistoryActions";
 
 export const kirim = async (prevState: unknown, formData: FormData) => {
   const validatedFields = suratSchema.safeParse(
@@ -31,7 +32,7 @@ export const kirim = async (prevState: unknown, formData: FormData) => {
 
   if (validationStageCount > 0) {
     try {
-      await prisma.surat.create({
+      const suratRes = await prisma.surat.create({
         data: {
           subject,
           authorId,
@@ -40,6 +41,7 @@ export const kirim = async (prevState: unknown, formData: FormData) => {
           validationStageId: validationStage!.id,
         },
       });
+      await createSuratHistory(suratRes.id, authorId, "CREATE");
     } catch (error) {
       console.log(error);
       return {
