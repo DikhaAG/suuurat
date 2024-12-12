@@ -1,3 +1,5 @@
+"use server";
+
 import { prisma } from "@/app/lib/prisma";
 
 export const getSystemSettingByName = async (settingName: string) => {

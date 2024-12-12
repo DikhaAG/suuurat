@@ -1,3 +1,4 @@
+"use server";
 import { prisma } from "@/app/lib/prisma";
 
 export const countAllValidationStage = async () => {

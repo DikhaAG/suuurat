@@ -1,3 +1,5 @@
+"use server";
+
 import { prisma } from "@/app/lib/prisma";
 import { del } from "@vercel/blob";
 import { getSuratById } from "@/app/lib/actions/surat/suratReadActions";

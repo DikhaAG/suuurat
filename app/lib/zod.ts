@@ -1,3 +1,4 @@
+"use server";
 import { z } from "zod";
 
 export const suratSchema = z.object({
@@ -13,7 +14,7 @@ export const suratSchema = z.object({
       (file) => file.size < 10000000 && ["application/pdf"].includes(file.type),
       {
         message: "File harus berupa PDF",
-      }
+      },
     ),
   noted: z.string().default(""),
   status: z.boolean().default(false),
