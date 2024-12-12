@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -13,8 +14,9 @@ import { Label } from "@/components/ui/label";
 
 import { useFormState } from "react-dom";
 import { signInCredentials } from "@/app/lib/actions/authActions";
+import Link from "next/link";
 
-export function LoginForm() {
+export default function LoginForm() {
   const [state, formAction] = useFormState(signInCredentials, null);
 
   return (
@@ -57,6 +59,12 @@ export function LoginForm() {
             </Button>
           </div>
         </CardContent>
+        <CardFooter>
+          Tidak memiliki akun?
+          <Link href={"/register"} className="text-blue-500 mx-2">
+            Daftar
+          </Link>
+        </CardFooter>
       </Card>
     </form>
   );

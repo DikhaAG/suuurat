@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { getUserByName } from "@/app/lib/actions/userActions";
 import { redirect } from "next/navigation";
-import { LoginForm } from "@/components/login-form";
+import LoginForm from "@/components/login-form";
 import { ThemeToggle } from "@/components/utils/theme-toggle";
 import type { Metadata } from "next";
 

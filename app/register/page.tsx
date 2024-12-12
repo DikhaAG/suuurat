@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { getUserByName } from "@/app/lib/actions/userActions";
 import { redirect } from "next/navigation";
-import LoginForm from "@/components/login-form";
+import RegisterForm from "@/components/register-form";
 import { ThemeToggle } from "@/components/utils/theme-toggle";
 import type { Metadata } from "next";
 
@@ -9,12 +9,12 @@ export const metadata: Metadata = {
   title: "Surat - Sign in",
 };
 
-export default async function SignPage() {
+export default async function RegisterPage() {
   const session = await auth();
   if (session?.user) {
     const user = await getUserByName(session?.user?.name);
     if (!user) {
-      return redirect("/");
+      return redirect("/register");
     } else if (user.role === "USER") {
       return redirect("/user");
     } else if (user.role === "VALIDATOR") {
@@ -29,7 +29,7 @@ export default async function SignPage() {
       <div className="fixed bottom-0 right-0 m-4">
         <ThemeToggle />
       </div>
-      <LoginForm />
+      <RegisterForm />
     </div>
   );
 }
