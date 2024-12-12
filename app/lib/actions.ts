@@ -447,7 +447,7 @@ export const kirim = async (prevState: unknown, formData: FormData) => {
           authorId,
           receiver,
           file: url,
-          validationStageId: validationStage?.id,
+          validationStageId: validationStage!.id,
         },
       });
     } catch (error) {
