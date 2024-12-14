@@ -1,14 +1,20 @@
-import { getAllValidator } from "@/app/lib/actions/userValidatorActions";
+import { getAllValidatorWithException } from "@/app/lib/actions/userValidatorActions";
 import { UserValidatorModel } from "@/app/lib/models";
 
 import { SelectContent, SelectItem } from "@/components/ui/select";
 import { useEffect, useState } from "react";
 
-export default function SelectItemValidator() {
+export default function SelectItemValidator({
+  validationStageId,
+}: {
+  validationStageId: string;
+}) {
   const [datas, setDatas] = useState<UserValidatorModel[]>([]);
   useEffect(() => {
-    getAllValidator().then((res) => setDatas(res));
-  }, []);
+    getAllValidatorWithException(validationStageId).then((res) =>
+      setDatas(res),
+    );
+  }, [validationStageId]);
   return (
     <>
       {datas.length !== 0 ? (

@@ -1,3 +1,4 @@
+"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -8,7 +9,10 @@ import {
   Dialog,
   DialogContent,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -21,10 +25,11 @@ import {
 import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ValidationStageModel } from "@/app/lib/models";
 import SelectItemValidator from "./select-item-validator";
-import { Input } from "@/components/ui/input";
+import { insertValidator } from "@/app/lib/actions/userValidatorActions";
+import { useEffect, useState } from "react";
+import { getSystemSettingByName } from "@/app/lib/actions/systemActions";
 
 const FormSchema = z.object({
-  validationStageId: z.string(),
   validatorId: z.string(),
 });
 
@@ -33,41 +38,52 @@ export function DataValidationStageInsertValidatorDialog({
 }: {
   validationStageData: ValidationStageModel;
 }) {
+  const [isFixed, setIsFixed] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      validatorId: "",
+    },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const res = await insertValidator(validationStageData.id, data.validatorId);
+    if (res) {
+      toast({
+        title: "Berhasil menyimpan data sebagai berikut:",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md p-4">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
+      });
+      window.location.reload();
+    } else {
+      toast({
+        title: "Gagal menyimpan data",
+      });
+    }
   }
+  useEffect(() => {
+    getSystemSettingByName("validationStageFixed").then((res) =>
+      setIsFixed(res!.status),
+    );
+  }, []);
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild disabled={isFixed}>
         <Button variant="ghost">Pilih Validator</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader hidden>
+          <DialogTitle></DialogTitle>
+          <DialogDescription></DialogDescription>
+        </DialogHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-full space-y-6"
           >
-            <FormField
-              control={form.control}
-              name="validationStageId"
-              render={({ field }) => (
-                <FormItem hidden>
-                  <Input {...field} value={validationStageData.id} />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="validatorId"
@@ -83,15 +99,14 @@ export function DataValidationStageInsertValidatorDialog({
                         <SelectValue placeholder="Pilih" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectItemValidator />
+                    <SelectItemValidator
+                      validationStageId={validationStageData.id}
+                    />
                   </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="">
-              Simpann
-            </Button>
             <DialogFooter>
               <Button type="submit" className="">
                 Simpan
