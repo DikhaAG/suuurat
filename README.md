@@ -21,4 +21,6 @@
   createdAd: default now()
   updatedAd: default updatedAt
 
+- then create new record on the table user with role ADMIN
+
 - npm run dev with local port :6969
