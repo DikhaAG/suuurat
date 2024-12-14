@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import { UserAdminModel } from "@/app/lib/models";
+import { UserValidatorModel } from "@/app/lib/models";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,13 +14,13 @@ import {
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
-import { deleteUserAdminById } from "@/app/lib/actions/userAdminActions";
+import { deleteValidatorById } from "@/app/lib/actions/userValidatorActions";
 import { useToast } from "@/hooks/use-toast";
 
-export default function DataAdminDeleteAlertDialog({
-  userAdminData,
+export default function DataValidatorDeleteAlertDialog({
+  userValidatorData,
 }: {
-  userAdminData: UserAdminModel;
+  userValidatorData: UserValidatorModel;
 }) {
   const [pending, setPending] = useState(false);
   const { toast } = useToast();
@@ -30,7 +30,7 @@ export default function DataAdminDeleteAlertDialog({
 
     setPending(true);
     try {
-      await deleteUserAdminById(id);
+      await deleteValidatorById(id);
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -55,7 +55,7 @@ export default function DataAdminDeleteAlertDialog({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Apakah anda yakin mengapus {userAdminData.name} ?
+            Apakah anda yakin mengapus {userValidatorData.name} ?
           </AlertDialogTitle>
           <AlertDialogDescription>
             Ini akan mengapus akun secara permanen dan menghapus data dari
@@ -66,7 +66,7 @@ export default function DataAdminDeleteAlertDialog({
           <AlertDialogCancel disabled={pending}>Batal</AlertDialogCancel>
           <AlertDialogAction
             disabled={pending}
-            onClick={(e) => onSubmit(e, userAdminData.id)}
+            onClick={(e) => onSubmit(e, userValidatorData.id)}
           >
             Hapus
           </AlertDialogAction>

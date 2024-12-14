@@ -33,6 +33,16 @@ export const createUser = async ({
   }
 };
 
+export const getAllUser = async () => {
+  const res = await prisma.user.findMany({
+    where: {
+      role: "USER",
+    },
+  });
+
+  return res;
+};
+
 export const getUserByName = async (name: string | null | undefined) => {
   if (name) {
     const res = await prisma.user.findUnique({
@@ -54,4 +64,18 @@ export const getUserByName = async (name: string | null | undefined) => {
     return res;
   }
   return null;
+};
+
+export const deleteUserById = async (id: string) => {
+  try {
+    await prisma.user.delete({
+      where: {
+        role: "ADMIN",
+        id,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 };

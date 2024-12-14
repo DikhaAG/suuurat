@@ -4,7 +4,7 @@ import {
   DataValidationStageColumnHeader,
 } from "@/components/admin/data/validationStage/columns";
 import { DataTable } from "@/components/admin/data/validationStage/data-table";
-import DataValidationStageAdd from "@/components/admin/data/validationStage/add-dialog";
+import DataValidationStageAdd from "@/components/admin/data/validationStage/add";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import { ChevronLeft } from "lucide-react";
 import DataValidationStageFixedDialog from "@/components/admin/data/validationStage/fixed-dialog";
 import { Separator } from "@/components/ui/separator";
 import { getSystemSettingByName } from "@/app/lib/actions/systemActions";
+import DataValidationStageRemove from "@/components/admin/data/validationStage/remove";
 
 export const metadata = {
   title: "Admin - Tahap Validasi",
@@ -36,9 +37,13 @@ const DataValidationStagePage = async () => {
           <div className="container flex flex-col w-fit">
             {!validationStageFixed?.status && (
               <>
-                <DataValidationStageFixedDialog />
+                <div className="container flex gap-2">
+                  <DataValidationStageAdd />
+                  <DataValidationStageRemove />
+                </div>
                 <Separator className="my-2" />
-                <DataValidationStageAdd />
+
+                <DataValidationStageFixedDialog />
               </>
             )}
           </div>

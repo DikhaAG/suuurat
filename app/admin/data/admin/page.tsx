@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
-import { DataTable } from "@/components/data-table";
+import { DataTable } from "@/components/admin/data/admin/data-table";
 import {
   DataAdminColumnHeader,
   DataAdminColumns,

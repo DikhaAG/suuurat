@@ -23,7 +23,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createUserValidator } from "@/app/lib/actions/userValidatorActions";
+import { createUser } from "@/app/lib/actions/userActions";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z
@@ -42,7 +42,7 @@ const formSchema = z
     }
   });
 
-export default function DataValidatorAdd() {
+export default function DataUserAdd() {
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -56,12 +56,12 @@ export default function DataValidatorAdd() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await createUserValidator(values);
+      await createUser(values);
       window.location.reload();
     } catch (error) {
       console.log(error);
       toast({
-        title: "Gagal menambahkan validator!",
+        title: "Gagal menambahkan user!",
         description: "Ada masalah pada server, coba lagi",
       });
     }
@@ -77,7 +77,7 @@ export default function DataValidatorAdd() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Tambah Validator</DialogTitle>
+          <DialogTitle>Tambah User</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

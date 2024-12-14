@@ -13,8 +13,8 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
-import DataValidationStageDeleteAlertDialog from "@/components/admin/data/validationStage/delete-alert-dialog";
 import { User } from "@prisma/client";
+import { DataValidationStageInsertValidatorDialog } from "./insert-validator";
 
 export const DataValidationStageColumnHeader: { [key: string]: string } = {
   title: "tahap",
@@ -97,7 +97,7 @@ export const DataValidationStageColumns: ColumnDef<ValidationStageModel>[] = [
             <DropdownMenuLabel>Opsi</DropdownMenuLabel>
             <Separator />
             <DropdownMenuItem asChild>
-              <DataValidationStageDeleteAlertDialog
+              <DataValidationStageInsertValidatorDialog
                 validationStageData={validationStageData}
               />
             </DropdownMenuItem>

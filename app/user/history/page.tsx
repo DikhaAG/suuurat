@@ -1,6 +1,9 @@
 import { getConfirmedSuratByAuthorName } from "@/app/lib/actions/surat/suratReadActions";
 import { auth } from "@/auth";
 import { DataTable } from "@/components/data-table";
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   UserHistoryTableColumns,
   UserHistoryTableColumnHeader,
@@ -14,16 +17,21 @@ const UserHistoryPage = async () => {
   const surat = await getConfirmedSuratByAuthorName(session!.user!.name!);
 
   return (
-    <div className="flex flex-col justify-between text-neutral-700 h-full">
-      <div className="flex flex-col gap-3 h-full">
-        <div className="text-4xl font-semibold mb-10">Riwayat Surat</div>
-        <div className="h-full">
-          <DataTable
-            data={surat}
-            columnHeader={UserHistoryTableColumnHeader}
-            columns={UserHistoryTableColumns}
-          />
-        </div>
+    <div className="flex flex-col gap-3">
+      <Button asChild variant={"ghost"} className="w-fit">
+        <Link href="/user">
+          <ChevronLeft />
+          Kembali
+        </Link>
+      </Button>
+
+      <div className="text-4xl font-semibold mb-10">Riwayat Surat</div>
+      <div className="container">
+        <DataTable
+          columns={UserHistoryTableColumns}
+          columnHeader={UserHistoryTableColumnHeader}
+          data={surat}
+        />
       </div>
     </div>
   );

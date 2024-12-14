@@ -1,19 +1,24 @@
-import { getAllRequestedSurat } from "@/app/lib/actions/surat/suratReadActions";
+import { getAllValidator } from "@/app/lib/actions/userValidatorActions";
+import { getSystemSettingByName } from "@/app/lib/actions/systemActions";
 import {
-  AdminRequestedColumns,
-  AdminRequestedColumnHeader,
-} from "@/components/admin/requested/columns";
-import { DataTable } from "@/components/data-table";
+  DataValidatorColumns,
+  DataValidatorColumnHeader,
+} from "@/components/admin/data/validator/columns";
+import { DataTable } from "@/components/admin/data/validator/data-table";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
+import DataValidatorAdd from "@/components/admin/data/validator/add-dialog";
 
 export const metadata = {
   title: "Admin - Data Validator",
 };
 const DataValidatorPage = async () => {
-  const data = await getAllRequestedSurat();
+  const data = await getAllValidator();
+  const validationStageFixed = await getSystemSettingByName(
+    "validationStageFixed",
+  );
   return (
     <>
       <div className="flex flex-col gap-3">
@@ -26,9 +31,10 @@ const DataValidatorPage = async () => {
 
         <div className="text-4xl font-semibold mb-10">Data Validator</div>
         <div className="container">
+          {!validationStageFixed?.status && <DataValidatorAdd />}
           <DataTable
-            columns={AdminRequestedColumns}
-            columnHeader={AdminRequestedColumnHeader}
+            columns={DataValidatorColumns}
+            columnHeader={DataValidatorColumnHeader}
             data={data}
           />
         </div>

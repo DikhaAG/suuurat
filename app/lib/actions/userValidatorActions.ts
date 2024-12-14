@@ -1,7 +1,7 @@
 "use server";
 import { prisma } from "@/app/lib/prisma";
 
-export const createUserAdmin = async ({
+export const createUserValidator = async ({
   name,
   password,
 }: {
@@ -13,36 +13,38 @@ export const createUserAdmin = async ({
       data: {
         name,
         password,
-        role: "ADMIN",
+        role: "VALIDATOR",
       },
     });
+    return true;
   } catch (error) {
     console.log(error);
     return false;
   }
 };
 
-export const getAllAdmin = async (exeptionName: string) => {
+export const getAllValidator = async () => {
   const res = await prisma.user.findMany({
     where: {
-      role: "ADMIN",
-      NOT: {
-        name: exeptionName,
-      },
+      role: "VALIDATOR",
+    },
+    include: {
+      validationStage: true,
     },
   });
 
   return res;
 };
 
-export const deleteUserAdminById = async (id: string) => {
+export const deleteValidatorById = async (id: string) => {
   try {
     await prisma.user.delete({
       where: {
-        role: "ADMIN",
+        role: "VALIDATOR",
         id,
       },
     });
+    return true;
   } catch (error) {
     console.log(error);
     return false;

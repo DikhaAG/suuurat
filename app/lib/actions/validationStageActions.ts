@@ -63,6 +63,23 @@ export const deleteValidationStageById = async (id: string) => {
         id,
       },
     });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const popValidationStage = async () => {
+  const count = await countAllValidationStage();
+  const last = await getValidationStageByTitle(count);
+  try {
+    await prisma.validationStage.delete({
+      where: {
+        id: last?.id,
+      },
+    });
+    return true;
   } catch (error) {
     console.log(error);
     return false;

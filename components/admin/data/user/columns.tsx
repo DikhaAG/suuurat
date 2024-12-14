@@ -4,7 +4,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { UserValidatorModel } from "@/app/lib/models";
+import { UserAdminModel } from "@/app/lib/models";
 import { Separator } from "@/components/ui/separator";
 import {
   DropdownMenu,
@@ -13,18 +13,16 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
-import DataValidatorDeleteAlertDialog from "@/components/admin/data/validator/delete-alert-dialog";
-import { ValidationStage } from "@prisma/client";
+import DataUserDeleteAlertDialog from "@/components/admin/data/user/delete-alert-dialog";
 
-export const DataValidatorColumnHeader: { [key: string]: string } = {
+export const DataUserColumnHeader: { [key: string]: string } = {
   name: "nama",
   password: "password",
-  validationStage: "tahap validasi",
   createdAt: "dibuat",
   actions: "opsi",
 };
 
-export const DataValidatorColumns: ColumnDef<UserValidatorModel>[] = [
+export const DataUserColumns: ColumnDef<UserAdminModel>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -48,27 +46,6 @@ export const DataValidatorColumns: ColumnDef<UserValidatorModel>[] = [
     header: "Password",
   },
   {
-    accessorKey: "validationStage",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Tahap Validasi
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const validationStageTitle = (
-        row.getValue("validationStage") as ValidationStage
-      )?.title;
-      return validationStageTitle;
-    },
-  },
-
-  {
     accessorKey: "createdAt",
     header: ({ column }) => {
       return (
@@ -91,7 +68,7 @@ export const DataValidatorColumns: ColumnDef<UserValidatorModel>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const userValidatorData = row.original;
+      const userData = row.original;
 
       return (
         <DropdownMenu>
@@ -105,9 +82,7 @@ export const DataValidatorColumns: ColumnDef<UserValidatorModel>[] = [
             <DropdownMenuLabel>Opsi</DropdownMenuLabel>
             <Separator />
             <DropdownMenuItem asChild>
-              <DataValidatorDeleteAlertDialog
-                userValidatorData={userValidatorData}
-              />
+              <DataUserDeleteAlertDialog userData={userData} />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
