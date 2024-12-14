@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { deleteValidatorById } from "@/app/lib/actions/userValidatorActions";
 import { useToast } from "@/hooks/use-toast";
+import { getSystemSettingByName } from "@/app/lib/actions/systemActions";
 
 export default function DataValidatorDeleteAlertDialog({
   userValidatorData,
@@ -23,6 +24,7 @@ export default function DataValidatorDeleteAlertDialog({
   userValidatorData: UserValidatorModel;
 }) {
   const [pending, setPending] = useState(false);
+  const [isFixed, setIsFixed] = useState(false);
   const { toast } = useToast();
 
   const onSubmit = async (e: MouseEvent<HTMLButtonElement>, id: string) => {
@@ -41,9 +43,14 @@ export default function DataValidatorDeleteAlertDialog({
       });
     }
   };
+  useEffect(() => {
+    getSystemSettingByName("validationStageFixed").then((res) =>
+      setIsFixed(res!.status),
+    );
+  }, []);
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
+      <AlertDialogTrigger asChild disabled={isFixed}>
         <DropdownMenuItem
           onSelect={(e) => e.preventDefault()}
           className="cursor-pointer text-red-500 focus:text-red-600 "
